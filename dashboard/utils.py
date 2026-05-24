@@ -55,41 +55,29 @@ def load_base_css():
         }}
 
         [data-testid="stSidebarNav"] a {{
-            background: linear-gradient(135deg, {COLORS['primary_blue']}20 0%, {COLORS['accent_teal']}15 100%) !important;
+            background: linear-gradient(135deg, {COLORS['primary_blue']}15 0%, {COLORS['accent_teal']}10 100%) !important;
             color: {COLORS['text_light']} !important;
             font-weight: 600 !important;
-            padding: 15px 18px !important;
-            border-radius: 12px !important;
-            margin: 8px 0 !important;
+            padding: 14px 16px !important;
+            border-radius: 10px !important;
+            margin: 6px 0 !important;
             transition: all 0.3s ease !important;
-            border-left: 4px solid transparent !important;
-            border: 2px solid {COLORS['accent_teal']}40 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
+            border: 2px solid {COLORS['accent_teal']}30 !important;
+            text-decoration: none !important;
         }}
 
         [data-testid="stSidebarNav"] a:hover {{
-            background: linear-gradient(135deg, {COLORS['primary_blue']}35 0%, {COLORS['accent_teal']}30 100%) !important;
-            border-left: 4px solid {COLORS['accent_teal']} !important;
-            transform: translateX(4px) !important;
-            box-shadow: 0 6px 20px rgba(0, 168, 150, 0.2) !important;
+            background: linear-gradient(135deg, {COLORS['primary_blue']}25 0%, {COLORS['accent_teal']}20 100%) !important;
+            border: 2px solid {COLORS['accent_teal']}60 !important;
+            box-shadow: 0 4px 12px rgba(0, 168, 150, 0.15) !important;
         }}
 
         [data-testid="stSidebarNav"] [aria-selected="true"] {{
-            background: linear-gradient(135deg, {COLORS['primary_blue']}40 0%, {COLORS['accent_teal']}35 100%) !important;
-            border-left: 4px solid {COLORS['accent_teal']} !important;
+            background: linear-gradient(135deg, {COLORS['primary_blue']}30 0%, {COLORS['accent_teal']}25 100%) !important;
             color: {COLORS['accent_teal']} !important;
             font-weight: 700 !important;
             border: 2px solid {COLORS['accent_teal']} !important;
-            box-shadow: 0 6px 24px rgba(0, 168, 150, 0.3) !important;
-        }}
-
-        [data-testid="stSidebarNav"] [aria-selected="true"]::before {{
-            content: '● ' !important;
-            margin-right: 5px !important;
-            color: {COLORS['accent_teal']} !important;
-            font-size: 12px !important;
+            box-shadow: 0 4px 16px rgba(0, 168, 150, 0.25) !important;
         }}
 
         h1, h2, h3, p, span, label, div {{

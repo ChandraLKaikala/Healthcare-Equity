@@ -12,13 +12,25 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from dashboard.utils import COLORS, apply_base_styling, apply_page_header, get_databricks_connection
+
 # Load Databricks credentials
 env_path = os.path.join(Path(__file__).parent.parent, '.env.databricks')
 load_dotenv(env_path)
 
-st.set_page_config(page_title="AI Summary Generator", layout="wide")
+st.set_page_config(page_title="AI Summary Generator | Healthcare Equity Analytics", page_icon="🤖", layout="wide")
 
-# Premium Dark Theme CSS
+# ⚡ OPTIMIZATION: Use cached CSS
+apply_base_styling()
+
+# Page header with cached styling
+apply_page_header(
+    title="🤖 AI SUMMARY GENERATOR",
+    subtitle="Claude-Powered Insights • Real-Time Analysis • Strategic Recommendations",
+    header_color="#00B4D8"
+)
+
+# Additional AI page CSS
 st.markdown("""
 <style>
     :root {
