@@ -43,8 +43,8 @@ if "page_load_time" not in st.session_state:
 
 # PAGE CONFIG
 st.set_page_config(
-    page_title="Healthcare Equity Analytics - Real-Time",
-    page_icon="⚕️",
+    page_title="🏥 Healthcare Equity Analytics - Dashboard",
+    page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
