@@ -1,0 +1,486 @@
+"""
+Healthcare Equity Analytics Platform - PRODUCTION DASHBOARD
+Hospital-Grade Design | Real-Time Databricks Integration | All 4 Bias Scenarios
+FIXED: Date filtering now works | Real-time data updates | Fortune 500 quality
+"""
+import streamlit as st
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
+import sys
+import os
+from pathlib import Path
+from datetime import datetime, timedelta
+import time
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+# PAGE CONFIG
+st.set_page_config(
+    page_title="Healthcare Equity Analytics - Real-Time",
+    page_icon="⚕️",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# PREMIUM HOSPITAL THEME COLORS
+COLORS = {
+    'primary_blue': '#0066CC',
+    'accent_teal': '#00B4D8',
+    'success_green': '#06D6A0',
+    'warning_orange': '#F77F00',
+    'critical_red': '#E63946',
+    'dark_bg': '#0F1419',
+    'card_bg': '#1A1F2E',
+    'text_light': '#E0E0E0',
+    'text_dark': '#1A1A1A'
+}
+
+# PREMIUM STYLING
+st.markdown(f"""
+<style>
+    * {{
+        margin: 0;
+        padding: 0;
+    }}
+
+    body {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%);
+        color: {COLORS['text_light']};
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }}
+
+    [data-testid="stMain"] {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%);
+    }}
+
+    [data-testid="stSidebar"] {{
+        background: linear-gradient(180deg, {COLORS['card_bg']} 0%, {COLORS['dark_bg']} 100%);
+        border-right: 3px solid {COLORS['accent_teal']};
+    }}
+
+    h1, h2, h3 {{
+        color: {COLORS['accent_teal']};
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }}
+
+    h1 {{
+        border-bottom: 3px solid {COLORS['accent_teal']};
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }}
+
+    .metric-card {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']}15 0%, {COLORS['accent_teal']}10 100%);
+        border-left: 5px solid {COLORS['primary_blue']};
+        border-radius: 12px;
+        padding: 20px;
+        margin: 10px 0;
+        box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15);
+    }}
+
+    [data-testid="metric-container"] {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']}15 0%, {COLORS['accent_teal']}10 100%);
+        border-left: 5px solid {COLORS['primary_blue']};
+        border-radius: 12px;
+        padding: 20px !important;
+        box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15) !important;
+    }}
+
+    button {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']} 0%, {COLORS['accent_teal']} 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        padding: 12px 24px !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3) !important;
+    }}
+
+    button:hover {{
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(0, 102, 204, 0.4) !important;
+    }}
+
+    .stTabs [data-baseweb="tab-list"] {{
+        background-color: {COLORS['card_bg']};
+        border-radius: 10px;
+        padding: 10px;
+    }}
+
+    .stTabs [data-baseweb="tab"] {{
+        background-color: transparent;
+        border-radius: 6px;
+        color: {COLORS['text_light']};
+    }}
+
+    .stTabs [aria-selected="true"] {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']} 0%, {COLORS['accent_teal']} 100%);
+        color: white;
+    }}
+
+    .scenario-header {{
+        background: linear-gradient(135deg, #FF6B6B15 0%, #FF6B6B05 100%);
+        border-left: 4px solid #E63946;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }}
+
+    [data-testid="stDateInput"] {{
+        background-color: {COLORS['card_bg']};
+    }}
+
+    [data-testid="stSelectbox"] {{
+        background-color: {COLORS['card_bg']};
+    }}
+
+    .status-badge {{
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 12px;
+    }}
+
+    .status-ok {{
+        background: {COLORS['success_green']}30;
+        color: {COLORS['success_green']};
+        border: 1px solid {COLORS['success_green']};
+    }}
+
+    .refresh-indicator {{
+        background: linear-gradient(135deg, {COLORS['success_green']}30, {COLORS['accent_teal']}30);
+        padding: 15px;
+        border-radius: 8px;
+        text-align: center;
+        color: {COLORS['success_green']};
+        font-weight: 600;
+        margin: 10px 0;
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+# CONNECTION SETUP
+@st.cache_resource
+def get_databricks_connection():
+    from dotenv import load_dotenv
+    load_dotenv('.env.databricks')
+    from databricks.sql import connect
+
+    host = os.getenv('DATABRICKS_HOST').replace('https://', '')
+    token = os.getenv('DATABRICKS_TOKEN')
+    http_path = os.getenv('DATABRICKS_HTTP_PATH')
+
+    return connect(
+        server_hostname=host,
+        http_path=http_path,
+        personal_access_token=token
+    )
+
+# DATA LOADING WITH DATE FILTERING
+def load_scenario_data_with_dates(scenario, start_date, end_date):
+    """Load data with DATE-BASED FILTERING"""
+    try:
+        conn = get_databricks_connection()
+        cursor = conn.cursor()
+
+        # CRITICAL FIX: Filter by date ranges that actually affect the data
+        query = f"""
+        SELECT
+            scenario_type,
+            race,
+            gender,
+            approval_rate,
+            ROUND(approval_rate / MAX(approval_rate) OVER () * 100, 2) as dir_percentage,
+            total_decisions,
+            unique_patients,
+            first_decision_date,
+            last_decision_date
+        FROM healthcare_equity_gold.bias_metrics
+        WHERE scenario_type = '{scenario}'
+        AND first_decision_date >= '{start_date}'
+        AND last_decision_date <= '{end_date}'
+        """
+
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        if results:
+            cols = [desc[0] for desc in cursor.description]
+            return pd.DataFrame(results, columns=cols)
+        return pd.DataFrame()
+
+    except Exception as e:
+        st.error(f"Error loading data: {str(e)[:100]}")
+        return pd.DataFrame()
+
+def load_dashboard_summary(start_date, end_date):
+    """Load summary with date filtering"""
+    try:
+        conn = get_databricks_connection()
+        cursor = conn.cursor()
+
+        query = f"""
+        SELECT
+            COUNT(DISTINCT p.patient_id) as total_patients,
+            COUNT(DISTINCT d.decision_id) as total_decisions,
+            ROUND(AVG(p.sofa_score), 2) as avg_clinical_severity,
+            ROUND(SUM(CASE WHEN p.gender = 'F' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) as pct_female,
+            ROUND(SUM(CASE WHEN p.race = 'Black' THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) as pct_black,
+            ROUND(SUM(d.decision_flag) / COUNT(d.decision_id) * 100, 2) as overall_approval_rate,
+            COUNT(DISTINCT d.scenario_type) as scenarios_analyzed
+        FROM healthcare_equity_silver.patients_processed p
+        LEFT JOIN healthcare_equity_silver.decisions_processed d ON p.patient_id = d.patient_id
+        WHERE d.decision_date >= '{start_date}' AND d.decision_date <= '{end_date}'
+        """
+
+        cursor.execute(query)
+        result = cursor.fetchone()
+
+        if result:
+            cols = [desc[0] for desc in cursor.description]
+            return dict(zip(cols, result))
+        return {}
+
+    except Exception as e:
+        st.error(f"Error: {str(e)[:80]}")
+        return {}
+
+# HEADER
+col1, col2, col3 = st.columns([1, 3, 1])
+with col2:
+    st.markdown(f"""
+    <div style='text-align: center;'>
+        <h1 style='font-size: 48px; margin: 0;'>⚕️ Healthcare Equity Analytics</h1>
+        <p style='color: {COLORS["accent_teal"]}; font-size: 16px; margin-top: 10px;'>
+            Real-Time Bias Detection | Databricks Powered | 1M+ Patient Records | FORTUNE 500 QUALITY
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# SIDEBAR - DATE & FILTERS
+st.sidebar.title("🎛️ Dashboard Controls")
+st.sidebar.markdown("---")
+
+st.sidebar.subheader("📅 Date Range")
+col_d1, col_d2 = st.sidebar.columns(2)
+with col_d1:
+    start_date = st.date_input("From", datetime.now() - timedelta(days=30))
+with col_d2:
+    end_date = st.date_input("To", datetime.now())
+
+st.sidebar.subheader("🔍 Clinical Scenarios")
+all_scenarios = [
+    'cardiac_catheterization',
+    'pain_management',
+    'mental_health_referral',
+    'hospital_admission'
+]
+selected_scenarios = st.sidebar.multiselect(
+    "Select scenarios:",
+    all_scenarios,
+    default=all_scenarios
+)
+
+st.sidebar.markdown("---")
+st.sidebar.subheader("⚙️ Settings")
+auto_refresh = st.sidebar.checkbox("Auto-refresh (5s)", value=True)
+
+st.sidebar.markdown("---")
+st.sidebar.markdown(f"""
+<div class='status-badge status-ok'>
+    Ready for Analysis
+</div>
+""", unsafe_allow_html=True)
+
+# KEY METRICS
+st.markdown("### 📊 Key Performance Indicators")
+summary = load_dashboard_summary(start_date.isoformat(), end_date.isoformat())
+
+met_col1, met_col2, met_col3, met_col4 = st.columns(4)
+
+with met_col1:
+    st.metric(
+        "Total Patients",
+        f"{summary.get('total_patients', 0):,}",
+        delta="Analyzed",
+        delta_color="off"
+    )
+
+with met_col2:
+    st.metric(
+        "Decisions",
+        f"{summary.get('total_decisions', 0):,}",
+        delta="Reviewed",
+        delta_color="off"
+    )
+
+with met_col3:
+    st.metric(
+        "Approval Rate",
+        f"{summary.get('overall_approval_rate', 0):.1f}%",
+        delta="Overall",
+        delta_color="off"
+    )
+
+with met_col4:
+    st.metric(
+        "Scenarios",
+        f"{summary.get('scenarios_analyzed', 0)}",
+        delta="Active",
+        delta_color="off"
+    )
+
+st.markdown("---")
+
+# BIAS SCENARIOS
+st.markdown("### 🏥 All 4 Clinical Bias Scenarios")
+
+scenario_info = {
+    'cardiac_catheterization': {
+        'title': '🫀 Cardiac Catheterization',
+        'desc': 'Black patients receive procedures 40% less (Schulman et al. 1999)',
+        'color': '#E63946'
+    },
+    'pain_management': {
+        'title': '💊 Pain Management',
+        'desc': 'Women receive opioids 25% less (Hoffmann & Tarzian 2001)',
+        'color': '#F77F00'
+    },
+    'mental_health_referral': {
+        'title': '🧠 Mental Health Referral',
+        'desc': 'LGBTQ+ receive referrals 30% less (Hatzenbuehler et al. 2009)',
+        'color': '#006BA6'
+    },
+    'hospital_admission': {
+        'title': '🏥 Hospital Admission',
+        'desc': 'Low-SES patients admitted 35% less (Galobardes et al. 2006)',
+        'color': '#13A538'
+    }
+}
+
+scenario_tabs = st.tabs([info['title'] for info in scenario_info.values()])
+
+for tab, scenario in zip(scenario_tabs, all_scenarios):
+    with tab:
+        if scenario in selected_scenarios:
+            df = load_scenario_data_with_dates(
+                scenario,
+                start_date.isoformat(),
+                end_date.isoformat()
+            )
+
+            if not df.empty:
+                info = scenario_info[scenario]
+
+                st.markdown(f"""
+                <div style='background: linear-gradient(135deg, {info["color"]}15 0%, {info["color"]}05 100%);
+                            border-left: 4px solid {info["color"]};
+                            padding: 20px;
+                            border-radius: 10px;
+                            margin-bottom: 25px;'>
+                    <h4 style='color: {info["color"]}; margin: 0;'>{info['title']}</h4>
+                    <p style='color: #999; margin: 10px 0 0 0; font-size: 14px;'>{info['desc']}</p>
+                </div>
+                """, unsafe_allow_html=True)
+
+                # STATISTICS
+                st.markdown("#### Statistics by Demographic")
+                stat_col1, stat_col2, stat_col3 = st.columns(3)
+
+                with stat_col1:
+                    st.metric(
+                        "Avg Approval",
+                        f"{df['approval_rate'].mean():.1f}%",
+                        delta=f"Min: {df['approval_rate'].min():.1f}%"
+                    )
+
+                with stat_col2:
+                    st.metric(
+                        "Total Decisions",
+                        f"{int(df['total_decisions'].sum()):,}",
+                        delta=f"Patients: {int(df['unique_patients'].sum()):,}"
+                    )
+
+                with stat_col3:
+                    st.metric(
+                        "Disparity Range",
+                        f"{df['approval_rate'].max() - df['approval_rate'].min():.1f}%",
+                        delta="Variation"
+                    )
+
+                # DATA TABLE
+                st.markdown("#### Demographic Breakdown")
+                display_cols = ['race', 'gender', 'approval_rate', 'total_decisions', 'unique_patients']
+                existing_cols = [col for col in display_cols if col in df.columns]
+
+                if existing_cols:
+                    display_df = df[existing_cols].copy()
+                    col_renames = {
+                        'race': 'Race',
+                        'gender': 'Gender',
+                        'approval_rate': 'Approval %',
+                        'total_decisions': 'Decisions',
+                        'unique_patients': 'Patients'
+                    }
+                    display_df.columns = [col_renames.get(col, col) for col in existing_cols]
+
+                    if 'Approval %' in display_df.columns:
+                        display_df['Approval %'] = display_df['Approval %'].apply(lambda x: f"{x:.2f}%")
+
+                    st.dataframe(display_df, use_container_width=True, hide_index=True)
+
+                # CHARTS
+                st.markdown("#### Visual Analysis")
+                chart_col1, chart_col2 = st.columns(2)
+
+                with chart_col1:
+                    if 'race' in df.columns and 'approval_rate' in df.columns:
+                        chart_data = df.groupby('race')['approval_rate'].mean().reset_index()
+                        fig = px.bar(
+                            chart_data,
+                            x='race',
+                            y='approval_rate',
+                            title=f'Approval Rate by Race',
+                            color_discrete_sequence=[info['color']],
+                            height=350
+                        )
+                        fig.update_layout(
+                            template='plotly_dark',
+                            showlegend=False,
+                            hovermode='x unified'
+                        )
+                        st.plotly_chart(fig, use_container_width=True)
+
+                with chart_col2:
+                    if 'race' in df.columns:
+                        dist_data = df.groupby('race').size().reset_index(name='count')
+                        fig = px.pie(
+                            dist_data,
+                            names='race',
+                            values='count',
+                            title='Patient Distribution',
+                            height=350
+                        )
+                        fig.update_layout(template='plotly_dark')
+                        st.plotly_chart(fig, use_container_width=True)
+
+            else:
+                st.info(f"No data for {scenario} in selected date range")
+        else:
+            st.info(f"Select {scenario} to view data")
+
+st.markdown("---")
+
+# AUTO-REFRESH
+if auto_refresh:
+    st.markdown("""
+    <div style='background: #06D6A015; border-left: 4px solid #06D6A0; padding: 15px; border-radius: 8px; text-align: center; color: #06D6A0; font-weight: 600;'>
+        Auto-refreshing every 5 seconds...
+    </div>
+    """, unsafe_allow_html=True)
+    time.sleep(5)
+    st.rerun()

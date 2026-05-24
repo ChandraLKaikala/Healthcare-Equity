@@ -1,0 +1,105 @@
+project:
+  name: "Healthcare Equity Bias Detection System"
+  version: "1.0.0"
+  organization: "Enterprise Healthcare Analytics"
+  description: "End-to-end system for detecting and recommending interventions for healthcare disparities"
+
+anthropic:
+  models:
+    bias_analysis: "claude-sonnet-4-6"
+    intervention_recs: "claude-sonnet-4-6"
+    executive_summary: "claude-haiku-4-5"
+    regulatory_reports: "claude-haiku-4-5"
+
+  caching:
+    enabled: true
+    ttl_hours: 1
+    min_cache_tokens: 1024
+
+  max_tokens: 4096
+  streaming: true
+  timeout_seconds: 60
+  retry_attempts: 3
+
+data:
+  synthetic:
+    n_patients: 10000
+    seed: 42
+    bias_injection_enabled: true
+    bias_scenarios:
+      cardiac_catheterization:
+        affected_group: "black_or_african_american"
+        relative_reduction: 0.40
+        reference: "Schulman et al. NEJM 1999"
+      pain_management:
+        affected_group: "female"
+        relative_reduction: 0.25
+        reference: "Hoffmann & Tarzian 2001"
+      mental_health_referral:
+        affected_group: "gay"
+        relative_reduction: 0.30
+        reference: "Hatzenbuehler et al. 2009"
+      hospital_admission:
+        affected_group: "ses_quintile_1"
+        relative_reduction: 0.35
+        reference: "Galobardes et al. 2006"
+
+  synthetic_distributions:
+    age_groups:
+      "18-30": 0.15
+      "31-45": 0.25
+      "46-60": 0.30
+      "61-75": 0.20
+      "75+": 0.10
+
+    race_distribution:
+      white: 0.62
+      black_or_african_american: 0.13
+      hispanic_or_latino: 0.19
+      asian: 0.04
+      other: 0.02
+
+    gender_distribution:
+      male: 0.48
+      female: 0.52
+
+    sexual_orientation_distribution:
+      heterosexual: 0.95
+      gay: 0.02
+      lesbian: 0.02
+      bisexual: 0.01
+      other: 0.00
+
+    insurance_distribution:
+      private: 0.65
+      medicare: 0.20
+      medicaid: 0.10
+      uninsured: 0.05
+
+bias_detection:
+  significance_threshold: 0.05
+  disparate_impact_threshold: 0.80
+  min_sample_size: 30
+
+  severity_thresholds:
+    mild: 0.85
+    moderate: 0.70
+    severe: 0.50
+    critical: 0.30
+
+dashboard:
+  title: "Healthcare Equity Analytics Platform"
+  theme: "light"
+  refresh_interval_seconds: 300
+  port: 8501
+  host: "0.0.0.0"
+
+database:
+  type: "duckdb"
+  path: "data/equity_bias.duckdb"
+  timeout_seconds: 30
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_path: "logs/equity_bias.log"

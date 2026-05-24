@@ -1,0 +1,20 @@
+﻿name: Healthcare Equity - Data Quality Checks
+tasks:
+  - task_key: quality_checks
+    description: "Validate data integrity and completeness"
+    depends_on: []
+    timeout_seconds: 1800
+    
+    python_wheel_task:
+      package_name: healthcare_equity
+      entry_point: jobs.quality:run_data_quality_checks
+      
+    new_cluster:
+      spark_version: "13.3.x-scala2.12"
+      node_type_id: "i3.xlarge"
+      num_workers: 2
+
+schedule:
+  quartz_cron_expression: "0 6,12,18 * * ?" # Every 6 hours
+  timezone_id: "UTC"
+  pause_status: "UNPAUSED"

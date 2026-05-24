@@ -1,0 +1,42 @@
+# Fairness metric thresholds for healthcare equity
+# Used by bias detection engine to classify severity
+
+disparate_impact:
+  # EEOC 80% rule
+  critical: 0.30
+  severe: 0.50
+  moderate: 0.70
+  mild: 0.85
+  none: 1.00
+
+chi_square_test:
+  # p-value significance level
+  highly_significant: 0.001
+  significant: 0.05
+  trending: 0.10
+  not_significant: 1.00
+
+confidence_interval:
+  # For odds ratio and relative risk
+  critical_width: 2.0
+  wide: 1.5
+  moderate: 1.0
+  tight: 0.5
+
+effect_sizes:
+  # For standardized mean differences (Cohen's d)
+  small: 0.2
+  medium: 0.5
+  large: 0.8
+  very_large: 1.2
+
+sample_size:
+  minimum_per_group: 30
+  recommended_per_group: 100
+  well_powered: 500
+
+regulatory_standards:
+  # CMS, Joint Commission, OCR requirements
+  acceptable_disparity_pct: 5.0
+  reportable_disparity_pct: 10.0
+  enforcement_disparity_pct: 25.0

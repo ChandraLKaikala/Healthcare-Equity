@@ -1,0 +1,1029 @@
+Traceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 194, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 954, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(op_handle, poll_resp)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000000423.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: YMZQNXDXNG9TW93N, Extended Request ID: 8RZmRxOntGlMON3eaYUNUEt4pBzch7iuEAAP/T5u5d/0TlfhOvEMf+T8K75g7YfmYAzOj7iLIND1vv0QfoKfCFA5xGFzJhGh, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: YMZQNXDXNG9TW93N; S3 Extended Request ID: 8RZmRxOntGlMON3eaYUNUEt4pBzch7iuEAAP/T5u5d/0TlfhOvEMf+T8K75g7YfmYAzOj7iLIND1vv0QfoKfCFA5xGFzJhGh; Proxy: null)
+
+[17:36:28] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+================================================================================
+HEALTHCARE EQUITY BIAS DETECTION - CONTINUOUS PIPELINE
+================================================================================
+
+This system will continuously:
+  1. Generate realistic patient data mutations (INSERT/UPSERT/DELETE)
+  2. Transform Bronze > Silver > Gold layers
+  3. Update bias metrics and analytics every minute
+  4. Keep dashboard data fresh
+
+Press Ctrl+C to stop
+
+
+[RUN #1] 2026-05-23 17:36:25
+--------------------------------------------------------------------------------
+[17:36:38] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[17:37:40] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #2] 2026-05-23 17:37:38
+--------------------------------------------------------------------------------
+[17:44:08] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sOAuth Token Request error CSRF Warning! State not equal in request and response.
+OAuth Authorization Error: CSRF Warning! State not equal in request and response.
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 112, in _initial_get_token
+    (access_token, refresh_token) = self.oauth_manager.get_tokens(
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 282, in get_tokens
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 276, in get_tokens
+    auth_response = self.__get_authorization_code(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 181, in __get_authorization_code
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 176, in __get_authorization_code
+    authorization_code_response = client.parse_request_uri_response(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\clients\web_application.py", line 220, in parse_request_uri_response
+    response = parse_authorization_code_response(uri, state=state)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\parameters.py", line 277, in parse_authorization_code_response
+    raise MismatchingStateError()
+oauthlib.oauth2.rfc6749.errors.MismatchingStateError: (mismatching_state) CSRF Warning! State not equal in request and response.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 284, in <module>
+    run_pipeline()
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 168, in run_pipeline
+    conn = connect(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\__init__.py", line 93, in connect
+    return Connection(server_hostname, http_path, access_token, **kwargs)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 307, in __init__
+    self.session = Session(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\session.py", line 99, in __init__
+    self.auth_provider = get_python_sql_connector_auth_provider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 134, in get_python_sql_connector_auth_provider
+    return get_auth_provider(cfg, http_client)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 56, in get_auth_provider
+    base_provider = DatabricksOAuthProvider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 91, in __init__
+    self._initial_get_token()
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 123, in _initial_get_token
+    logging.error(f"unexpected error in oauth initialization", e, exc_info=True)
+Message: 'unexpected error in oauth initialization'
+Arguments: (MismatchingStateError('(mismatching_state) CSRF Warning! State not equal in request and response.'),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 91, in __init__
+    self._initial_get_token()
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 124, in _initial_get_token
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 112, in _initial_get_token
+    (access_token, refresh_token) = self.oauth_manager.get_tokens(
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 282, in get_tokens
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 276, in get_tokens
+    auth_response = self.__get_authorization_code(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 181, in __get_authorization_code
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 176, in __get_authorization_code
+    authorization_code_response = client.parse_request_uri_response(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\clients\web_application.py", line 220, in parse_request_uri_response
+    response = parse_authorization_code_response(uri, state=state)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\parameters.py", line 277, in parse_authorization_code_response
+    raise MismatchingStateError()
+oauthlib.oauth2.rfc6749.errors.MismatchingStateError: (mismatching_state) CSRF Warning! State not equal in request and response.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 284, in <module>
+    run_pipeline()
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 168, in run_pipeline
+    conn = connect(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\__init__.py", line 93, in connect
+    return Connection(server_hostname, http_path, access_token, **kwargs)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 307, in __init__
+    self.session = Session(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\session.py", line 99, in __init__
+    self.auth_provider = get_python_sql_connector_auth_provider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 134, in get_python_sql_connector_auth_provider
+    return get_auth_provider(cfg, http_client)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 56, in get_auth_provider
+    base_provider = DatabricksOAuthProvider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 93, in __init__
+    logging.error(f"unexpected error", e, exc_info=True)
+Message: 'unexpected error'
+Arguments: (MismatchingStateError('(mismatching_state) CSRF Warning! State not equal in request and response.'),)
+Traceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 168, in run_pipeline
+    conn = connect(
+           ^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\__init__.py", line 93, in connect
+    return Connection(server_hostname, http_path, access_token, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 334, in __init__
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 307, in __init__
+    self.session = Session(
+                   ^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\session.py", line 99, in __init__
+    self.auth_provider = get_python_sql_connector_auth_provider(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 134, in get_python_sql_connector_auth_provider
+    return get_auth_provider(cfg, http_client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 56, in get_auth_provider
+    base_provider = DatabricksOAuthProvider(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 94, in __init__
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 91, in __init__
+    self._initial_get_token()
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 124, in _initial_get_token
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 112, in _initial_get_token
+    (access_token, refresh_token) = self.oauth_manager.get_tokens(
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 282, in get_tokens
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 276, in get_tokens
+    auth_response = self.__get_authorization_code(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 181, in __get_authorization_code
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 176, in __get_authorization_code
+    authorization_code_response = client.parse_request_uri_response(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\clients\web_application.py", line 220, in parse_request_uri_response
+    response = parse_authorization_code_response(uri, state=state)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\parameters.py", line 277, in parse_authorization_code_response
+    raise MismatchingStateError()
+oauthlib.oauth2.rfc6749.errors.MismatchingStateError: (mismatching_state) CSRF Warning! State not equal in request and response.
+Exception ignored in: <function Connection.__del__ at 0x0000012EB088AFC0>
+Traceback (most recent call last):
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 449, in __del__
+    if self.open:
+       ^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 494, in open
+    return self.session.is_open
+           ^^^^^^^^^^^^
+AttributeError: 'Connection' object has no attribute 'session'
+  [ERROR] (mismatching_state) CSRF Warning! State not equal in request and response.
+ RUNNING NEXT ITERATION
+
+
+[RUN #3] 2026-05-23 17:45:08
+--------------------------------------------------------------------------------
+[17:46:45] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 253, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 954, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(op_handle, poll_resp)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: [DELTA_CONCURRENT_APPEND.WHOLE_TABLE_READ] Transaction conflict detected. A concurrent MERGE added data to table workspace.healthcare_equity_bronze.decisions committed at version 546. This transaction attempted to read the entire table, conflicting with the concurrent modification. Consider adding filters to your query to narrow the data scope or retrying the operation. Refer to https://docs.databricks.com/delta/concurrency-control.html for more information.
+
+[17:47:48] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [ERROR] [DELTA_CONCURRENT_APPEND.WHOLE_TABLE_READ] Transaction conflict detected. A concurrent MERGE added data to table workspace.healthcare_equity_bronze.decisions committed at version 546. This transaction
+ RUNNING NEXT ITERATION
+
+
+[RUN #4] 2026-05-23 17:47:45
+--------------------------------------------------------------------------------
+[17:53:19] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[17:54:23] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #5] 2026-05-23 17:54:19
+--------------------------------------------------------------------------------
+[17:59:57] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 226, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 954, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(op_handle, poll_resp)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/d7d2b9da-cbca-4741-be4a-a4165027d0b7/_delta_log/00000000000000000669.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: M7011HZVATJG1HEQ, Extended Request ID: TgMVZBnB/WexCGd6f4hzu3vS1Xg6kw0ab6qhzEMdR4Aw/T4cQbEtiWeVvX2sq9cLxmUrZkxhzV/PTnbqxqgDi0xcEleFvugs, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: M7011HZVATJG1HEQ; S3 Extended Request ID: TgMVZBnB/WexCGd6f4hzu3vS1Xg6kw0ab6qhzEMdR4Aw/T4cQbEtiWeVvX2sq9cLxmUrZkxhzV/PTnbqxqgDi0xcEleFvugs; Proxy: null)
+
+[18:01:00] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #6] 2026-05-23 18:00:57
+--------------------------------------------------------------------------------
+[18:05:05] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 226, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 941, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: [DELTA_MERGE_UNRESOLVED_EXPRESSION] Cannot resolve decision_value in UPDATE clause given columns t.decision_id, t.patient_id, t.scenario_type, t.decision, t.decision_date.; line 2 pos 16
+
+[18:06:09] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [ERROR] [DELTA_MERGE_UNRESOLVED_EXPRESSION] Cannot resolve decision_value in UPDATE clause given columns t.decision_id, t.patient_id, t.scenario_type, t.decision, t.decision_date.; line 2 pos 16
+ RUNNING NEXT ITERATION
+
+
+[RUN #7] 2026-05-23 18:06:05
+--------------------------------------------------------------------------------
+[18:07:57] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 226, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 941, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: [DELTA_MERGE_UNRESOLVED_EXPRESSION] Cannot resolve decision_value in UPDATE clause given columns t.decision_id, t.patient_id, t.scenario_type, t.decision, t.decision_date.; line 2 pos 16
+
+[18:09:00] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [ERROR] [DELTA_MERGE_UNRESOLVED_EXPRESSION] Cannot resolve decision_value in UPDATE clause given columns t.decision_id, t.patient_id, t.scenario_type, t.decision, t.decision_date.; line 2 pos 16
+ RUNNING NEXT ITERATION
+
+
+[RUN #8] 2026-05-23 18:08:57
+--------------------------------------------------------------------------------
+[18:11:03] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 194, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 941, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000000890.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: GMFWV3AMM8645ZRH, Extended Request ID: 5ybAHP1GYi13STbuRc7aHbRbP7LFeINXTTTZFDWpz5fxD/6SaJ2PFZIj6GAEozKajfkfqpg8ynIhffB76O0D7lyjDlPItJzj, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: GMFWV3AMM8645ZRH; S3 Extended Request ID: 5ybAHP1GYi13STbuRc7aHbRbP7LFeINXTTTZFDWpz5fxD/6SaJ2PFZIj6GAEozKajfkfqpg8ynIhffB76O0D7lyjDlPItJzj; Proxy: null)
+
+[18:12:06] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #9] 2026-05-23 18:12:03
+--------------------------------------------------------------------------------
+[18:12:12] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 194, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 954, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(op_handle, poll_resp)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000000913.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: 0QAY2FFXXM7MZESS, Extended Request ID: 6xwIIFOW+gnKu0b2soSGonl912IAk7h95CshRtGwR8YgR1d8B5JRfQ/8tYXznJPRRwjgE2YvHc6pqjOOQ5yt/PIp19AgtZ2T, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: 0QAY2FFXXM7MZESS; S3 Extended Request ID: 6xwIIFOW+gnKu0b2soSGonl912IAk7h95CshRtGwR8YgR1d8B5JRfQ/8tYXznJPRRwjgE2YvHc6pqjOOQ5yt/PIp19AgtZ2T; Proxy: null)
+
+[18:13:16] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #10] 2026-05-23 18:13:12
+--------------------------------------------------------------------------------
+[18:13:22] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 214, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 941, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000000982.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: DEX71VWXYFNEQNV5, Extended Request ID: hYV0QCfHAHOE5wzmo+a5x7LLDXZM0qROdQuP7ASvdL2BZpLEj6IhSZKeH5eAMoApbbXdklWiWq5VJp9s6DeT8X3nnZiq4oDi, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: DEX71VWXYFNEQNV5; S3 Extended Request ID: hYV0QCfHAHOE5wzmo+a5x7LLDXZM0qROdQuP7ASvdL2BZpLEj6IhSZKeH5eAMoApbbXdklWiWq5VJp9s6DeT8X3nnZiq4oDi; Proxy: null)
+
+[18:14:25] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #11] 2026-05-23 18:14:22
+--------------------------------------------------------------------------------
+[18:15:47] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 226, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 941, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: [DELTA_MERGE_UNRESOLVED_EXPRESSION] Cannot resolve decision_value in UPDATE clause given columns t.decision_id, t.patient_id, t.scenario_type, t.decision, t.decision_date.; line 2 pos 16
+
+[18:16:51] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [ERROR] [DELTA_MERGE_UNRESOLVED_EXPRESSION] Cannot resolve decision_value in UPDATE clause given columns t.decision_id, t.patient_id, t.scenario_type, t.decision, t.decision_date.; line 2 pos 16
+ RUNNING NEXT ITERATION
+
+
+[RUN #12] 2026-05-23 18:16:47
+--------------------------------------------------------------------------------
+[18:18:18] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 194, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 954, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(op_handle, poll_resp)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000001092.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: F6G5MYRJKTNFRBKZ, Extended Request ID: tsTmIvCsNTKakLuxB9ZqQEDPsFyB5KpEolBBAqcHqMQ3FJRzeeSNzOq/6cH1FN/xKQRKExU0TeQDVQYAMKvCDPTKraW0ZebI, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: F6G5MYRJKTNFRBKZ; S3 Extended Request ID: tsTmIvCsNTKakLuxB9ZqQEDPsFyB5KpEolBBAqcHqMQ3FJRzeeSNzOq/6cH1FN/xKQRKExU0TeQDVQYAMKvCDPTKraW0ZebI; Proxy: null)
+
+[18:19:23] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #13] 2026-05-23 18:19:18
+--------------------------------------------------------------------------------
+[18:19:55] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[18:20:58] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #14] 2026-05-23 18:20:55
+--------------------------------------------------------------------------------
+[18:25:33] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[18:26:36] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #15] 2026-05-23 18:26:33
+--------------------------------------------------------------------------------
+[18:30:29] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 194, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 954, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(op_handle, poll_resp)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000001286.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: E329B5EF8TRBGH0V, Extended Request ID: Vg4Lhv6eCtCABDbmu+FbtMu3QJtmDKWE/mA6G0eQJWHg7Sn8Vb9v6CNt/YUFz0nW1mbHpjf1/LbvsAHVo51SBd8gvTH+kOzD, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: E329B5EF8TRBGH0V; S3 Extended Request ID: Vg4Lhv6eCtCABDbmu+FbtMu3QJtmDKWE/mA6G0eQJWHg7Sn8Vb9v6CNt/YUFz0nW1mbHpjf1/LbvsAHVo51SBd8gvTH+kOzD; Proxy: null)
+
+[18:31:31] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #16] 2026-05-23 18:31:29
+--------------------------------------------------------------------------------
+[18:31:43] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[18:32:46] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #17] 2026-05-23 18:32:43
+--------------------------------------------------------------------------------
+[18:37:14] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 214, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 941, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000001402.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: 3E1ZGK71PK5A1TVS, Extended Request ID: MdA6zytZQfLbV+AmttvYocsaSQlCQL4GfWNlrIdj3WazqCElu6INQrOBZY7NMsaZO/rLBt1KSd5Rvivl42WiwHSq0ZnneaFJ, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: 3E1ZGK71PK5A1TVS; S3 Extended Request ID: MdA6zytZQfLbV+AmttvYocsaSQlCQL4GfWNlrIdj3WazqCElu6INQrOBZY7NMsaZO/rLBt1KSd5Rvivl42WiwHSq0ZnneaFJ; Proxy: null)
+
+[18:38:17] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #18] 2026-05-23 18:38:14
+--------------------------------------------------------------------------------
+[18:39:28] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[18:40:30] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #19] 2026-05-23 18:40:28
+--------------------------------------------------------------------------------
+[18:43:55] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[18:44:57] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #20] 2026-05-23 18:44:55
+--------------------------------------------------------------------------------
+[18:48:40] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 194, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 954, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(op_handle, poll_resp)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000001601.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: XSY4076NXYNG2SZD, Extended Request ID: 02WuCSCVC07EtyF2hVAM5012iwOMiIFncEfVBmI5bxObdr65fUunQBEz6NnDJGfsPEZufvSB5yGvsSqyPJFtM9AaK6OiUMNN, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: XSY4076NXYNG2SZD; S3 Extended Request ID: 02WuCSCVC07EtyF2hVAM5012iwOMiIFncEfVBmI5bxObdr65fUunQBEz6NnDJGfsPEZufvSB5yGvsSqyPJFtM9AaK6OiUMNN; Proxy: null)
+
+[18:49:42] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #21] 2026-05-23 18:49:40
+--------------------------------------------------------------------------------
+[18:51:09] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[18:52:11] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #22] 2026-05-23 18:52:09
+--------------------------------------------------------------------------------
+[18:56:01] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sTraceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 214, in run_pipeline
+    cursor.execute(f"""
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\telemetry\latency_logger.py", line 182, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 1341, in execute
+    self.active_result_set = self.backend.execute_command(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1066, in execute_command
+    execute_response, has_more_rows = self._handle_execute_response(
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 1273, in _handle_execute_response
+    final_operation_state = self._wait_until_command_done(
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 941, in _wait_until_command_done
+    self._check_command_not_in_error_or_closed_state(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\backend\thrift_backend.py", line 634, in _check_command_not_in_error_or_closed_state
+    raise ServerOperationError(
+databricks.sql.exc.ServerOperationError: Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d33-8def-2176a88608fb/tables/4c1b4557-4b41-4bfb-9119-c1bb0a461316/_delta_log/00000000000000001737.json {} Hadoop 3.4.2, aws-sdk-java/1.12.681 Linux/6.1.166-197.305.amzn2023.aarch64 OpenJDK_64-Bit_Server_VM/17.0.18+8-LTS java/17.0.18 scala/2.13.16 kotlin/1.9.10 vendor/Azul_Systems,_Inc. cfg/retry-mode/legacy com.amazonaws.services.s3.model.GetObjectMetadataRequest; Request ID: JP653T0F65JRDS04, Extended Request ID: 4VXNjCRTyU31oToT/qo1k74iNXgksyDj/bAWYOPmOVdZP/QxpU6z2nuGu+8R8S65m/bZuugxOMs=, Cloud Provider: AWS, Instance ID: unknown (Service: Amazon S3; Status Code: 400; Error Code: 400 Bad Request; Request ID: JP653T0F65JRDS04; S3 Extended Request ID: 4VXNjCRTyU31oToT/qo1k74iNXgksyDj/bAWYOPmOVdZP/QxpU6z2nuGu+8R8S65m/bZuugxOMs=; Proxy: null)
+
+[18:57:04] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [ERROR] Bad Request; request: HEAD https://dbstorage-prod-9wase.s3.us-east-2.amazonaws.com uc/80994fd3-c96a-419d-9bef-97e9085c344a/1cb8150a-00d3-4085-ae2b-41e7264b5f2e/__unitystorage/catalogs/18095482-7496-4d
+ RUNNING NEXT ITERATION
+
+
+[RUN #23] 2026-05-23 18:57:01
+--------------------------------------------------------------------------------
+[18:59:01] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10sOAuth Token Request error CSRF Warning! State not equal in request and response.
+OAuth Authorization Error: CSRF Warning! State not equal in request and response.
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 112, in _initial_get_token
+    (access_token, refresh_token) = self.oauth_manager.get_tokens(
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 282, in get_tokens
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 276, in get_tokens
+    auth_response = self.__get_authorization_code(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 181, in __get_authorization_code
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 176, in __get_authorization_code
+    authorization_code_response = client.parse_request_uri_response(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\clients\web_application.py", line 220, in parse_request_uri_response
+    response = parse_authorization_code_response(uri, state=state)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\parameters.py", line 277, in parse_authorization_code_response
+    raise MismatchingStateError()
+oauthlib.oauth2.rfc6749.errors.MismatchingStateError: (mismatching_state) CSRF Warning! State not equal in request and response.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 284, in <module>
+    run_pipeline()
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 168, in run_pipeline
+    conn = connect(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\__init__.py", line 93, in connect
+    return Connection(server_hostname, http_path, access_token, **kwargs)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 307, in __init__
+    self.session = Session(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\session.py", line 99, in __init__
+    self.auth_provider = get_python_sql_connector_auth_provider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 134, in get_python_sql_connector_auth_provider
+    return get_auth_provider(cfg, http_client)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 56, in get_auth_provider
+    base_provider = DatabricksOAuthProvider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 91, in __init__
+    self._initial_get_token()
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 123, in _initial_get_token
+    logging.error(f"unexpected error in oauth initialization", e, exc_info=True)
+Message: 'unexpected error in oauth initialization'
+Arguments: (MismatchingStateError('(mismatching_state) CSRF Warning! State not equal in request and response.'),)
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 91, in __init__
+    self._initial_get_token()
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 124, in _initial_get_token
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 112, in _initial_get_token
+    (access_token, refresh_token) = self.oauth_manager.get_tokens(
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 282, in get_tokens
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 276, in get_tokens
+    auth_response = self.__get_authorization_code(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 181, in __get_authorization_code
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 176, in __get_authorization_code
+    authorization_code_response = client.parse_request_uri_response(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\clients\web_application.py", line 220, in parse_request_uri_response
+    response = parse_authorization_code_response(uri, state=state)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\parameters.py", line 277, in parse_authorization_code_response
+    raise MismatchingStateError()
+oauthlib.oauth2.rfc6749.errors.MismatchingStateError: (mismatching_state) CSRF Warning! State not equal in request and response.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 1160, in emit
+    msg = self.format(record)
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 999, in format
+    return fmt.format(record)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 703, in format
+    record.message = record.getMessage()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0\Lib\logging\__init__.py", line 392, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 284, in <module>
+    run_pipeline()
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 168, in run_pipeline
+    conn = connect(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\__init__.py", line 93, in connect
+    return Connection(server_hostname, http_path, access_token, **kwargs)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 307, in __init__
+    self.session = Session(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\session.py", line 99, in __init__
+    self.auth_provider = get_python_sql_connector_auth_provider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 134, in get_python_sql_connector_auth_provider
+    return get_auth_provider(cfg, http_client)
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 56, in get_auth_provider
+    base_provider = DatabricksOAuthProvider(
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 93, in __init__
+    logging.error(f"unexpected error", e, exc_info=True)
+Message: 'unexpected error'
+Arguments: (MismatchingStateError('(mismatching_state) CSRF Warning! State not equal in request and response.'),)
+Traceback (most recent call last):
+  File "C:\Users\lokes\Downloads\Equity_Bias_Detection\continuous_data_pipeline.py", line 168, in run_pipeline
+    conn = connect(
+           ^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\__init__.py", line 93, in connect
+    return Connection(server_hostname, http_path, access_token, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 334, in __init__
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 307, in __init__
+    self.session = Session(
+                   ^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\session.py", line 99, in __init__
+    self.auth_provider = get_python_sql_connector_auth_provider(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 134, in get_python_sql_connector_auth_provider
+    return get_auth_provider(cfg, http_client)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\auth.py", line 56, in get_auth_provider
+    base_provider = DatabricksOAuthProvider(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 94, in __init__
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 91, in __init__
+    self._initial_get_token()
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 124, in _initial_get_token
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\authenticators.py", line 112, in _initial_get_token
+    (access_token, refresh_token) = self.oauth_manager.get_tokens(
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 282, in get_tokens
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 276, in get_tokens
+    auth_response = self.__get_authorization_code(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 181, in __get_authorization_code
+    raise e
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\auth\oauth.py", line 176, in __get_authorization_code
+    authorization_code_response = client.parse_request_uri_response(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\clients\web_application.py", line 220, in parse_request_uri_response
+    response = parse_authorization_code_response(uri, state=state)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\oauthlib\oauth2\rfc6749\parameters.py", line 277, in parse_authorization_code_response
+    raise MismatchingStateError()
+oauthlib.oauth2.rfc6749.errors.MismatchingStateError: (mismatching_state) CSRF Warning! State not equal in request and response.
+Exception ignored in: <function Connection.__del__ at 0x000001D0B447AFC0>
+Traceback (most recent call last):
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 449, in __del__
+    if self.open:
+       ^^^^^^^^^
+  File "C:\Users\lokes\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\databricks\sql\client.py", line 494, in open
+    return self.session.is_open
+           ^^^^^^^^^^^^
+AttributeError: 'Connection' object has no attribute 'session'
+  [ERROR] (mismatching_state) CSRF Warning! State not equal in request and response.
+ RUNNING NEXT ITERATION
+
+
+[RUN #24] 2026-05-23 19:00:01
+--------------------------------------------------------------------------------
+[19:00:04] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s
+[19:01:12] Starting continuous data pipeline...
+  Patients: 40 INSERT, 60 UPSERT
+  Decisions: 150 INSERT, 45 UPSERT
+  [1/5] Upserting existing patients...
+  [2/5] Inserting new patients...
+  [3/5] Upserting decisions...
+  [4/5] Inserting new decisions...
+  [5/5] Cleaning up old records...
+  [SUCCESS] Bronze layer updated!
+  [TRANSFORM] Starting transformation pipeline...
+  [SUCCESS] Full pipeline completed!
+ RUNNING NEXT ITERATION
+
+
+[RUN #25] 2026-05-23 19:01:04
+--------------------------------------------------------------------------------
+[19:05:53] Pipeline cycle completed
+
+Waiting 60 seconds until next run... 50s 40s 30s 20s 10s

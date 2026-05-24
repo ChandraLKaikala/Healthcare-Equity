@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "healthcare-equity-bias-detection"
+version = "1.0.0"
+description = "Enterprise-grade healthcare equity bias detection and intervention system"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    {name = "Healthcare Analytics Team"},
+]
+keywords = ["healthcare", "equity", "bias", "detection", "ai"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Healthcare Industry",
+    "Topic :: Scientific/Engineering :: Medical Science Apps",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "anthropic>=0.40.0",
+    "pandas>=2.1.4",
+    "numpy>=1.26.3",
+    "duckdb>=0.9.4",
+    "pydantic>=2.5.3",
+    "scipy>=1.11.4",
+    "scikit-learn>=1.3.2",
+    "statsmodels>=0.14.1",
+    "plotly>=5.18.0",
+    "streamlit>=1.29.0",
+    "pyyaml>=6.0.1",
+    "python-dotenv>=1.0.0",
+    "tenacity>=8.2.3",
+]
+
+[project.urls]
+Homepage = "https://github.com/org/equity-bias-detection"
+Documentation = "https://github.com/org/equity-bias-detection/wiki"
+Repository = "https://github.com/org/equity-bias-detection.git"
+
+[tool.setuptools]
+packages = ["src", "dashboard", "tests", "scripts"]

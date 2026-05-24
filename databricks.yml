@@ -1,0 +1,22 @@
+﻿auth:
+  host: ${DATABRICKS_HOST}
+  token: ${DATABRICKS_TOKEN}
+
+jobs:
+  - name: "Daily Bias Detection"
+    schedule:
+      quartz_cron_expression: "0 0 * * ?"
+    tasks:
+      - task_key: "bias_analysis"
+        python_wheel_task:
+          entry_point: "healthcare_equity.jobs:run_bias_detection"
+        new_cluster:
+          spark_version: "13.3.x-scala2.12"
+          node_type_id: "i3.xlarge"
+          num_workers: 4
+
+clusters:
+  - cluster_name: "production_wh"
+    spark_version: "13.3.x-scala2.12"
+    node_type_id: "i3.xlarge"
+    num_workers: 4

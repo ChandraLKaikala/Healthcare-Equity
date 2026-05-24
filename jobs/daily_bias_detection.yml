@@ -1,0 +1,29 @@
+﻿name: Healthcare Equity - Daily Bias Detection
+tasks:
+  - task_key: daily_bias_analysis
+    description: "Run daily bias detection across all scenarios"
+    depends_on: []
+    timeout_seconds: 3600
+    max_retries: 1
+    
+    python_wheel_task:
+      package_name: healthcare_equity
+      entry_point: jobs.bias_detection:run_daily_analysis
+      
+    new_cluster:
+      spark_version: "13.3.x-scala2.12"
+      node_type_id: "i3.xlarge"
+      num_workers: 4
+      spark_conf:
+        spark.databricks.delta.preview.enabled: "true"
+      
+    email_notifications:
+      on_failure:
+        - healthcare-team@company.com
+      on_success:
+        - healthcare-team@company.com
+
+schedule:
+  quartz_cron_expression: "0 0 * * ?" # Daily at midnight UTC
+  timezone_id: "UTC"
+  pause_status: "UNPAUSED"
