@@ -14,6 +14,8 @@ from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from dashboard.utils import COLORS, apply_base_styling, apply_page_header, get_databricks_connection
+
 # Load Databricks credentials
 env_path = os.path.join(Path(__file__).parent.parent, '.env.databricks')
 load_dotenv(env_path)
@@ -27,121 +29,15 @@ st.set_page_config(
 # NOTE: Auto-refresh removed for latency optimization
 # Users can manually refresh with button instead
 
-# HEALTHCARE COLOR SCHEME
-COLORS = {
-    'primary_blue': '#0052A3',
-    'accent_teal': '#00A896',
-    'success_green': '#2D6A4F',
-    'warning_orange': '#D97706',
-    'critical_red': '#DC2626',
-    'dark_bg': '#0B1929',
-    'card_bg': '#112240',
-    'text_light': '#E8E8E8',
-    'text_muted': '#A8B5C1'
-}
+# ⚡ OPTIMIZATION: Use cached CSS instead of recomputing every page load
+apply_base_styling()
 
-# HEALTHCARE-OPTIMIZED STYLING - MATCHES MAIN DASHBOARD
-st.markdown(f"""
-<style>
-    * {{
-        margin: 0;
-        padding: 0;
-    }}
-
-    body, html {{
-        background: linear-gradient(135deg, #0B1929 0%, #1a2332 100%) !important;
-        color: #E8E8E8 !important;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    }}
-
-    [data-testid="stAppViewContainer"] {{
-        background: linear-gradient(135deg, #0B1929 0%, #1a2332 100%) !important;
-    }}
-
-    [data-testid="stMain"] {{
-        background: linear-gradient(135deg, #0B1929 0%, #1a2332 100%) !important;
-    }}
-
-    h1, h2, h3 {{
-        color: {COLORS['accent_teal']} !important;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-    }}
-
-    h2 {{
-        color: {COLORS['primary_blue']} !important;
-    }}
-
-    h1 {{
-        border-bottom: 3px solid {COLORS['accent_teal']};
-        padding-bottom: 15px;
-        margin-bottom: 30px;
-    }}
-
-    [data-testid="metric-container"] {{
-        background: linear-gradient(135deg, {COLORS['primary_blue']}25 0%, {COLORS['accent_teal']}15 100%) !important;
-        border-left: 5px solid {COLORS['primary_blue']};
-        border-radius: 12px;
-        padding: 20px !important;
-        box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15) !important;
-    }}
-
-    [data-testid="stTable"] {{
-        background-color: #112240 !important;
-    }}
-
-    table {{
-        background-color: #112240 !important;
-        color: #E8E8E8 !important;
-    }}
-
-    thead {{
-        background-color: {COLORS['primary_blue']}30 !important;
-    }}
-
-    tbody tr {{
-        background-color: #112240 !important;
-    }}
-
-    tbody tr:hover {{
-        background-color: {COLORS['primary_blue']}20 !important;
-    }}
-
-    button {{
-        background: linear-gradient(135deg, {COLORS['primary_blue']} 0%, {COLORS['accent_teal']} 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        transition: all 0.3s ease !important;
-    }}
-
-    button:hover {{
-        transform: translateY(-2px) !important;
-    }}
-
-    .stAlert {{
-        background-color: #112240 !important;
-        color: #E8E8E8 !important;
-        border-color: {COLORS['accent_teal']}40 !important;
-    }}
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown(f"""
-<div style='background: linear-gradient(135deg, {COLORS["critical_red"]}15 0%, {COLORS["warning_orange"]}15 100%);
-            border: 2px solid {COLORS["critical_red"]}; padding: 30px; border-radius: 15px; margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.2);'>
-    <h1 style='color: {COLORS["critical_red"]}; margin: 0 0 10px 0; font-size: 2.2em; border: none;'>🔍 BIAS DETECTION ANALYSIS</h1>
-    <p style='color: {COLORS["text_muted"]}; margin: 0; font-size: 1em;'>Deep-Dive Disparity Detection • Statistical Rigor • Clinical Insights</p>
-</div>
-""", unsafe_allow_html=True)
-
-# PERFORMANCE: Cache database connections across page navigations
-@st.cache_resource
-def get_databricks_connection():
-    from databricks_client import get_databricks_connection as get_client
-    return get_client()
+# Page header with cached styling
+apply_page_header(
+    title="🔍 BIAS DETECTION ANALYSIS",
+    subtitle="Deep-Dive Disparity Detection • Statistical Rigor • Clinical Insights",
+    header_color=COLORS["critical_red"]
+)
 
 # OPTIMIZED: Cache for 60 seconds to reduce database hits and improve latency
 @st.cache_data(ttl=60)
