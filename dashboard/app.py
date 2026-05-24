@@ -462,6 +462,37 @@ st.markdown("""
 
 st.markdown("### 📊 Key Performance Indicators")
 
+# Check if database has data
+@st.cache_data(ttl=60)
+def check_database_has_data():
+    try:
+        conn = get_databricks_connection()
+        if not conn:
+            return False
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM healthcare_equity_silver.patients_processed")
+        result = cursor.fetchone()
+        conn.close()
+        return result and int(result[0]) > 0
+    except:
+        return False
+
+has_data = check_database_has_data()
+
+if not has_data:
+    st.error("⚠️ **Database is Empty - No Data Available**")
+    st.warning("""
+    Your Databricks tables don't have any patient data yet.
+
+    **To populate data, go to the Bias Detection page and click "Generate Sample Data"**
+
+    Or run this in your terminal:
+    ```bash
+    python quickstart.py
+    ```
+    """)
+    st.stop()  # Stop rendering the rest of the page
+
 # Show loading spinner while fetching data
 with st.spinner("📊 Loading metrics..."):
     summary = load_dashboard_summary(start_date.isoformat(), end_date.isoformat())

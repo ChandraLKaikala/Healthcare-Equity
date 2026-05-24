@@ -105,6 +105,83 @@ def fetch_bias_data(scenario, demographic):
         return pd.DataFrame()
 
 # ============================================================================
+# CHECK IF DATABASE HAS DATA - IF NOT, OFFER TO GENERATE
+# ============================================================================
+
+@st.cache_data(ttl=60)
+def check_data_exists():
+    """Check if database has any records"""
+    try:
+        conn = get_databricks_connection()
+        if not conn:
+            return False
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM healthcare_equity_silver.decisions_processed")
+        result = cursor.fetchone()
+        conn.close()
+        return result and result[0] > 0
+    except:
+        return False
+
+has_data = check_data_exists()
+
+if not has_data:
+    st.error("⚠️ **Database is empty - no data to analyze**")
+    st.warning("Your database tables are empty. Click below to generate 50 sample patient records:")
+
+    if st.button("🚀 Generate Sample Data (50 patients)", use_container_width=True, key="gen_sample_data"):
+        with st.spinner("Generating sample data..."):
+            try:
+                from faker import Faker
+                import random
+                import time
+
+                conn = get_databricks_connection()
+                if not conn:
+                    st.error("Cannot connect to database")
+                else:
+                    cursor = conn.cursor()
+                    faker = Faker()
+
+                    # Generate 50 test patients
+                    for i in range(50):
+                        patient_id = str(int(time.time() * 1000000) + i)
+                        race = random.choice(['White', 'Black', 'Hispanic', 'Asian', 'Other'])
+                        gender = random.choice(['M', 'F'])
+                        age = random.randint(30, 85)
+                        insurance = random.choice(['Medicare', 'Medicaid', 'Private', 'Uninsured'])
+                        sofa = random.randint(0, 20)
+                        cci = random.randint(0, 30)
+                        ses = random.randint(1, 5)
+
+                        # Insert patient
+                        cursor.execute(f"""
+                            INSERT INTO healthcare_equity_silver.patients_processed
+                            VALUES ('{patient_id}', '{race}', '{gender}', 'Not disclosed', {age},
+                                   '{insurance}', {sofa}, {cci}, {ses}, 'Medium', 'Adult', CURRENT_TIMESTAMP())
+                        """)
+
+                        # Insert decisions for each scenario
+                        scenarios = ['cardiac_catheterization', 'pain_management', 'mental_health_referral', 'hospital_admission']
+                        for j, scenario in enumerate(scenarios):
+                            decision_flag = random.randint(0, 1)
+                            cursor.execute(f"""
+                                INSERT INTO healthcare_equity_silver.decisions_processed
+                                VALUES ({i*4+j}, '{patient_id}', '{scenario}', 'Yes' if {decision_flag}=1 else 'No',
+                                       {decision_flag}, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())
+                            """)
+
+                    conn.close()
+                    st.success("✅ Generated 50 sample patients with 200 treatment decisions!")
+                    st.info("Page will refresh automatically in 5 seconds...")
+                    time.sleep(5)
+                    st.cache_data.clear()
+                    st.rerun()
+            except Exception as e:
+                st.error(f"Error generating data: {str(e)[:200]}")
+                st.info("**Alternative:** Run `python quickstart.py` in terminal to generate data")
+
+# ============================================================================
 # FILTERS
 # ============================================================================
 
