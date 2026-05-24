@@ -41,6 +41,12 @@ MANIFEST
 .env.databricks
 .streamlit/secrets.toml
 
+# Scripts with credentials
+check_and_refresh_data.py
+get_dashboard_baseline.py
+run_jobs_immediately.py
+test_databricks_api.py
+
 # Data files
 data/equity_bias.duckdb
 data/synthetic_data.parquet
