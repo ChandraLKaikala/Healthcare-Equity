@@ -135,10 +135,14 @@ with col_refresh2:
 # LOAD DATA (CACHED for performance on page navigation)
 # ============================================================================
 
-with st.spinner("Loading bias analysis data..."):
-    df_results = fetch_bias_data(scenario, demographic)
+with st.spinner("⏳ Loading bias analysis data..."):
+    try:
+        df_results = fetch_bias_data(scenario, demographic)
+    except Exception as e:
+        st.error(f"Error fetching data: {str(e)[:100]}")
+        df_results = pd.DataFrame()
 
-if not df_results.empty:
+if not df_results.empty and len(df_results) > 0:
     # Filter by sample size
     df_results = df_results[df_results['total_decisions'] >= min_sample]
 
