@@ -20,6 +20,15 @@ load_dotenv(env_path)
 
 st.set_page_config(page_title="Bias Detection", layout="wide")
 
+# AUTO-REFRESH every 10 seconds for FRESH data
+import time
+if "bias_last_refresh" not in st.session_state:
+    st.session_state.bias_last_refresh = time.time()
+current_time = time.time()
+if current_time - st.session_state.bias_last_refresh > 10:
+    st.session_state.bias_last_refresh = current_time
+    st.rerun()
+
 # HEALTHCARE COLOR SCHEME
 COLORS = {
     'primary_blue': '#0052A3',
@@ -53,8 +62,8 @@ def get_databricks_connection():
     from databricks_client import get_databricks_connection as get_client
     return get_client()
 
-# PERFORMANCE: Cache expensive bias detection queries for 60 seconds
-@st.cache_data(ttl=60)
+# FRESH DATA: Cache for only 5 seconds - get latest results
+@st.cache_data(ttl=5)
 def fetch_bias_data(scenario, demographic):
     """Fetch bias metrics from database (cached for performance)."""
     try:

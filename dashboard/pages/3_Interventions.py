@@ -18,6 +18,15 @@ load_dotenv(env_path)
 
 st.set_page_config(page_title="Interventions", layout="wide")
 
+# AUTO-REFRESH every 10 seconds for FRESH data
+import time
+if "interv_last_refresh" not in st.session_state:
+    st.session_state.interv_last_refresh = time.time()
+current_time = time.time()
+if current_time - st.session_state.interv_last_refresh > 10:
+    st.session_state.interv_last_refresh = current_time
+    st.rerun()
+
 st.title("💡 Interventions & Root Cause Analysis")
 
 def get_databricks_connection():

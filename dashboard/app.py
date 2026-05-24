@@ -49,6 +49,17 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# ============================================================================
+# AGGRESSIVE AUTO-REFRESH: Every 10 seconds for fresh data
+# ============================================================================
+if "last_refresh_time" not in st.session_state:
+    st.session_state.last_refresh_time = time.time()
+
+current_time = time.time()
+if current_time - st.session_state.last_refresh_time > 10:
+    st.session_state.last_refresh_time = current_time
+    st.rerun()  # Force full page refresh every 10 seconds
+
 # HEALTHCARE-GRADE COLOR SCHEME (clinically optimized for medical professionals)
 COLORS = {
     'primary_blue': '#0052A3',          # Clinical authority, trust (medical blue)
@@ -291,8 +302,8 @@ def get_databricks_connection():
     from databricks_client import get_databricks_connection as get_client
     return get_client()
 
-# OPTIMIZED DATA LOADING WITH CACHING
-@st.cache_data(ttl=30)  # Cache for 30 seconds for faster page loads
+# OPTIMIZED DATA LOADING WITH MINIMAL CACHING
+@st.cache_data(ttl=5)  # Cache for only 5 seconds - keep data FRESH
 def load_scenario_data_with_dates(scenario, start_date, end_date):
     """Load scenario data with aggressive caching for performance"""
     try:
@@ -335,7 +346,7 @@ def load_scenario_data_with_dates(scenario, start_date, end_date):
         st.error(f"⚠️ Error loading {scenario}: {str(e)[:100]}")
         return pd.DataFrame()
 
-@st.cache_data(ttl=30)  # Cache for 30 seconds
+@st.cache_data(ttl=5)  # Cache for only 5 seconds - FRESH data
 def load_dashboard_summary(start_date, end_date):
     """Load summary statistics with caching (refreshes every 30 seconds)"""
     try:

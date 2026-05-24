@@ -19,6 +19,15 @@ load_dotenv(env_path)
 
 st.set_page_config(page_title="Executive Summary", layout="wide")
 
+# AUTO-REFRESH every 10 seconds for FRESH data
+import time
+if "last_refresh" not in st.session_state:
+    st.session_state.last_refresh = time.time()
+current_time = time.time()
+if current_time - st.session_state.last_refresh > 10:
+    st.session_state.last_refresh = current_time
+    st.rerun()
+
 # HEALTHCARE COLOR SCHEME
 COLORS = {
     'primary_blue': '#0052A3',
