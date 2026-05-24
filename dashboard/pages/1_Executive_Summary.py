@@ -17,16 +17,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 env_path = os.path.join(Path(__file__).parent.parent, '.env.databricks')
 load_dotenv(env_path)
 
-st.set_page_config(page_title="Executive Summary", layout="wide")
+st.set_page_config(
+    page_title="Executive Dashboard | Healthcare Equity Analytics",
+    page_icon="📊",
+    layout="wide"
+)
 
-# AUTO-REFRESH every 10 seconds for FRESH data
-import time
-if "last_refresh" not in st.session_state:
-    st.session_state.last_refresh = time.time()
-current_time = time.time()
-if current_time - st.session_state.last_refresh > 10:
-    st.session_state.last_refresh = current_time
-    st.rerun()
+# NOTE: Auto-refresh removed for latency optimization
+# Users can manually refresh with button instead
 
 # HEALTHCARE COLOR SCHEME
 COLORS = {
@@ -41,37 +39,101 @@ COLORS = {
     'text_muted': '#A8B5C1'
 }
 
-# HEALTHCARE-OPTIMIZED STYLING
+# HEALTHCARE-OPTIMIZED STYLING - MATCHES MAIN DASHBOARD
 st.markdown(f"""
 <style>
-    body {{
-        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2e48 100%) !important;
+    * {{
+        margin: 0;
+        padding: 0;
     }}
-    h1 {{
+
+    body, html {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%) !important;
+        color: {COLORS['text_light']} !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }}
+
+    [data-testid="stAppViewContainer"] {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%) !important;
+    }}
+
+    [data-testid="stMain"] {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%) !important;
+    }}
+
+    h1, h2, h3 {{
         color: {COLORS['accent_teal']} !important;
-        font-weight: 900;
-        font-size: 2.5em;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }}
+
+    h1 {{
         border-bottom: 3px solid {COLORS['accent_teal']};
-        padding-bottom: 20px;
+        padding-bottom: 15px;
         margin-bottom: 30px;
     }}
-    h2 {{
-        color: {COLORS['primary_blue']} !important;
-        font-weight: 800;
-        font-size: 1.5em;
-        margin-top: 30px;
-    }}
+
     [data-testid="metric-container"] {{
-        background: linear-gradient(135deg, {COLORS['primary_blue']}20 0%, {COLORS['accent_teal']}10 100%) !important;
-        border-left: 5px solid {COLORS['accent_teal']};
-        border-radius: 8px;
-        padding: 25px !important;
-        box-shadow: 0 4px 12px rgba(0, 82, 163, 0.2);
+        background: linear-gradient(135deg, {COLORS['primary_blue']}25 0%, {COLORS['accent_teal']}15 100%) !important;
+        border-left: 5px solid {COLORS['primary_blue']};
+        border-radius: 12px;
+        padding: 20px !important;
+        box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15) !important;
+        color: {COLORS['text_light']} !important;
+    }}
+
+    [data-testid="stTable"] {{
+        background-color: {COLORS['card_bg']} !important;
+    }}
+
+    table {{
+        background-color: {COLORS['card_bg']} !important;
+        color: {COLORS['text_light']} !important;
+    }}
+
+    thead {{
+        background-color: {COLORS['primary_blue']}30 !important;
+        color: {COLORS['accent_teal']} !important;
+    }}
+
+    tbody tr {{
+        background-color: {COLORS['card_bg']} !important;
+        color: {COLORS['text_light']} !important;
+    }}
+
+    tbody tr:hover {{
+        background-color: {COLORS['primary_blue']}20 !important;
+    }}
+
+    button {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']} 0%, {COLORS['accent_teal']} 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }}
+
+    button:hover {{
+        transform: translateY(-2px) !important;
+    }}
+
+    .stAlert {{
+        background-color: {COLORS['card_bg']} !important;
+        color: {COLORS['text_light']} !important;
+        border-color: {COLORS['accent_teal']}40 !important;
     }}
 </style>
 """, unsafe_allow_html=True)
 
-st.title("📊 Executive Summary — Healthcare Equity Analytics")
+st.markdown(f"""
+<div style='background: linear-gradient(135deg, {COLORS["primary_blue"]}20 0%, {COLORS["accent_teal"]}20 100%);
+            border: 2px solid {COLORS["accent_teal"]}; padding: 30px; border-radius: 15px; margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 82, 163, 0.2);'>
+    <h1 style='color: {COLORS["accent_teal"]}; margin: 0 0 10px 0; font-size: 2.2em;'>📊 EXECUTIVE DASHBOARD</h1>
+    <p style='color: {COLORS["text_muted"]}; margin: 0; font-size: 1em;'>Real-Time Equity Intelligence • Strategic Insights • Compliance Overview</p>
+</div>
+""", unsafe_allow_html=True)
 
 # PERFORMANCE: Cache database connections
 @st.cache_resource
@@ -79,8 +141,8 @@ def get_databricks_connection():
     from databricks_client import get_databricks_connection as get_client
     return get_client()
 
-# PERFORMANCE: Cache queries for 45 seconds (refresh every ~1 minute)
-@st.cache_data(ttl=45)
+# OPTIMIZED: Cache for 60 seconds to reduce database hits and improve latency
+@st.cache_data(ttl=60)
 def fetch_kpi_metrics():
     """Fetch and cache KPI metrics from database."""
     try:

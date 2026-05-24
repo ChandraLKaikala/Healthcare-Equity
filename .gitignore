@@ -38,6 +38,8 @@ MANIFEST
 .env
 .env.local
 .env.*.local
+.env.databricks
+.streamlit/secrets.toml
 
 # Data files
 data/equity_bias.duckdb

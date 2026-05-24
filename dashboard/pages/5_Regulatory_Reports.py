@@ -18,18 +18,122 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 env_path = os.path.join(Path(__file__).parent.parent, '.env.databricks')
 load_dotenv(env_path)
 
-st.set_page_config(page_title="Regulatory Reports", layout="wide")
+st.set_page_config(
+    page_title="Compliance Reports | Healthcare Equity Analytics",
+    page_icon="📋",
+    layout="wide"
+)
 
-# AUTO-REFRESH every 10 seconds for FRESH data
-import time
-if "report_last_refresh" not in st.session_state:
-    st.session_state.report_last_refresh = time.time()
-current_time = time.time()
-if current_time - st.session_state.report_last_refresh > 10:
-    st.session_state.report_last_refresh = current_time
-    st.rerun()
+# NOTE: Auto-refresh removed for latency optimization
+# Users can manually refresh with button instead
 
-st.title("📋 Regulatory Compliance Reports")
+# HEALTHCARE COLOR SCHEME
+COLORS = {
+    'primary_blue': '#0052A3',
+    'accent_teal': '#00A896',
+    'success_green': '#2D6A4F',
+    'warning_orange': '#D97706',
+    'critical_red': '#DC2626',
+    'dark_bg': '#0B1929',
+    'card_bg': '#112240',
+    'text_light': '#E8E8E8',
+    'text_muted': '#A8B5C1'
+}
+
+# HEALTHCARE-OPTIMIZED STYLING - MATCHES MAIN DASHBOARD
+st.markdown(f"""
+<style>
+    * {{
+        margin: 0;
+        padding: 0;
+    }}
+
+    body, html {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%) !important;
+        color: {COLORS['text_light']} !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }}
+
+    [data-testid="stAppViewContainer"] {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%) !important;
+    }}
+
+    [data-testid="stMain"] {{
+        background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%) !important;
+    }}
+
+    h1, h2, h3 {{
+        color: #10B981 !important;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }}
+
+    h1 {{
+        border-bottom: 3px solid #10B981;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }}
+
+    [data-testid="metric-container"] {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']}25 0%, {COLORS['accent_teal']}15 100%) !important;
+        border-left: 5px solid {COLORS['primary_blue']};
+        border-radius: 12px;
+        padding: 20px !important;
+        box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15) !important;
+    }}
+
+    [data-testid="stTable"] {{
+        background-color: {COLORS['card_bg']} !important;
+    }}
+
+    table {{
+        background-color: {COLORS['card_bg']} !important;
+        color: {COLORS['text_light']} !important;
+    }}
+
+    thead {{
+        background-color: {COLORS['primary_blue']}30 !important;
+        color: #10B981 !important;
+    }}
+
+    tbody tr {{
+        background-color: {COLORS['card_bg']} !important;
+        color: {COLORS['text_light']} !important;
+    }}
+
+    tbody tr:hover {{
+        background-color: {COLORS['primary_blue']}20 !important;
+    }}
+
+    button {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']} 0%, {COLORS['accent_teal']} 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }}
+
+    button:hover {{
+        transform: translateY(-2px) !important;
+    }}
+
+    .stAlert {{
+        background-color: {COLORS['card_bg']} !important;
+        color: {COLORS['text_light']} !important;
+        border-color: #10B981 40 !important;
+    }}
+</style>
+""", unsafe_allow_html=True)
+
+st.markdown(f"""
+<div style='background: linear-gradient(135deg, #10B981 15 0%, #059669 15 100%);
+            border: 2px solid #10B981; padding: 30px; border-radius: 15px; margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);'>
+    <h1 style='color: #10B981; margin: 0 0 10px 0; font-size: 2.2em; border: none;'>📋 COMPLIANCE REPORTS</h1>
+    <p style='color: {COLORS["text_muted"]}; margin: 0; font-size: 1em;'>Regulatory Frameworks • Compliance Status • Certifications</p>
+</div>
+""", unsafe_allow_html=True)
 
 def get_databricks_connection():
     from databricks_client import get_databricks_connection as get_client

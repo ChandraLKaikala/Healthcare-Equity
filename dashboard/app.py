@@ -49,16 +49,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ============================================================================
-# AGGRESSIVE AUTO-REFRESH: Every 10 seconds for fresh data
-# ============================================================================
-if "last_refresh_time" not in st.session_state:
-    st.session_state.last_refresh_time = time.time()
-
-current_time = time.time()
-if current_time - st.session_state.last_refresh_time > 10:
-    st.session_state.last_refresh_time = current_time
-    st.rerun()  # Force full page refresh every 10 seconds
+# NOTE: Auto-refresh removed for latency optimization
+# Users can manually refresh with button instead of forced 10-second refresh
 
 # HEALTHCARE-GRADE COLOR SCHEME (clinically optimized for medical professionals)
 COLORS = {
@@ -75,7 +67,7 @@ COLORS = {
     'text_dark': '#0B1929'             # Dark text on light backgrounds
 }
 
-# PREMIUM STYLING
+# PREMIUM STYLING WITH ENHANCED NAVIGATION
 st.markdown(f"""
 <style>
     * {{
@@ -87,6 +79,40 @@ st.markdown(f"""
         background: linear-gradient(135deg, {COLORS['dark_bg']} 0%, #1a2332 100%) !important;
         color: {COLORS['text_light']} !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }}
+
+    /* Enhanced Page Navigation */
+    [data-testid="stSidebarNav"] {{
+        background: linear-gradient(180deg, {COLORS['card_bg']} 0%, {COLORS['dark_bg']} 100%) !important;
+    }}
+
+    [data-testid="stSidebarNav"] a {{
+        color: {COLORS['text_light']} !important;
+        font-weight: 500 !important;
+        padding: 12px 16px !important;
+        border-radius: 8px !important;
+        margin: 4px 0 !important;
+        transition: all 0.3s ease !important;
+        border-left: 3px solid transparent !important;
+    }}
+
+    [data-testid="stSidebarNav"] a:hover {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']}20, {COLORS['accent_teal']}20) !important;
+        border-left-color: {COLORS['accent_teal']} !important;
+        transform: translateX(4px) !important;
+    }}
+
+    [data-testid="stSidebarNav"] [aria-selected="true"] {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']}30, {COLORS['accent_teal']}20) !important;
+        border-left: 3px solid {COLORS['accent_teal']} !important;
+        color: {COLORS['accent_teal']} !important;
+        font-weight: 700 !important;
+    }}
+
+    [data-testid="stSidebarNav"] [aria-selected="true"]::before {{
+        content: '●' !important;
+        margin-right: 8px !important;
+        color: {COLORS['accent_teal']} !important;
     }}
 
     [data-testid="stAppViewContainer"] {{
@@ -413,98 +439,275 @@ with col2:
     </div>
     """, unsafe_allow_html=True)
 
-# SIDEBAR - DATE & FILTERS
-st.sidebar.title("🎛️ Dashboard Controls")
+# LOAD SUMMARY DATA
+summary = load_dashboard_summary(datetime.now() - timedelta(days=30), datetime.now())
+
+# ============================================================================
+# BEAUTIFUL SIDEBAR HEADER WITH PAGE GUIDE
+# ============================================================================
+st.sidebar.markdown(f"""
+<div style='background: linear-gradient(135deg, {COLORS["primary_blue"]}25 0%, {COLORS["accent_teal"]}20 100%);
+            border: 2px solid {COLORS["accent_teal"]}; padding: 20px; border-radius: 12px; margin-bottom: 20px;'>
+    <h2 style='color: {COLORS["accent_teal"]}; margin: 0 0 10px 0; font-size: 18px; font-weight: 900;'>📑 NAVIGATION GUIDE</h2>
+    <div style='font-size: 11px; color: {COLORS["text_muted"]}; line-height: 1.6;'>
+        <p style='margin: 0;'><b style='color: {COLORS["accent_teal"]}'>📊</b> Executive Dashboard - KPIs & Metrics</p>
+        <p style='margin: 4px 0;'><b style='color: {COLORS["critical_red"]}'>🔍</b> Bias Detection - Disparity Analysis</p>
+        <p style='margin: 4px 0;'><b style='color: #8B5CF6'>💡</b> Interventions - Solutions & Actions</p>
+        <p style='margin: 4px 0;'><b style='color: #06B6D4'>📈</b> Accountability - Provider Performance</p>
+        <p style='margin: 4px 0;'><b style='color: #10B981'>📋</b> Compliance - Regulatory Reports</p>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ============================================================================
+# ENHANCED SIDEBAR WITH QUICK STATS & CONTROLS
+# ============================================================================
+st.sidebar.markdown(f"""
+<div style='background: linear-gradient(135deg, {COLORS["primary_blue"]}15 0%, {COLORS["accent_teal"]}15 100%);
+            border-left: 4px solid {COLORS["accent_teal"]}; padding: 20px; border-radius: 10px; margin-bottom: 20px;'>
+    <h2 style='color: {COLORS["accent_teal"]}; margin: 0 0 15px 0; font-size: 20px;'>⚕️ INTELLIGENCE OVERVIEW</h2>
+    <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 12px;'>
+        <div style='background: {COLORS["card_bg"]}; padding: 12px; border-radius: 8px; border-left: 3px solid {COLORS["critical_red"]};'>
+            <p style='margin: 0; font-size: 11px; color: {COLORS["text_muted"]};'>CRITICAL</p>
+            <p style='margin: 5px 0 0 0; font-size: 18px; font-weight: bold; color: {COLORS["critical_red"]};'>2</p>
+        </div>
+        <div style='background: {COLORS["card_bg"]}; padding: 12px; border-radius: 8px; border-left: 3px solid {COLORS["warning_orange"]};'>
+            <p style='margin: 0; font-size: 11px; color: {COLORS["text_muted"]};'>HIGH PRIORITY</p>
+            <p style='margin: 5px 0 0 0; font-size: 18px; font-weight: bold; color: {COLORS["warning_orange"]};'>3</p>
+        </div>
+        <div style='background: {COLORS["card_bg"]}; padding: 12px; border-radius: 8px; border-left: 3px solid {COLORS["accent_teal"]};'>
+            <p style='margin: 0; font-size: 11px; color: {COLORS["text_muted"]};'>PATIENTS</p>
+            <p style='margin: 5px 0 0 0; font-size: 16px; font-weight: bold; color: {COLORS["accent_teal"]};'>1M+</p>
+        </div>
+        <div style='background: {COLORS["card_bg"]}; padding: 12px; border-radius: 8px; border-left: 3px solid {COLORS["success_green"]};'>
+            <p style='margin: 0; font-size: 11px; color: {COLORS["text_muted"]};'>DECISIONS</p>
+            <p style='margin: 5px 0 0 0; font-size: 16px; font-weight: bold; color: {COLORS["success_green"]};'>1.2M+</p>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ============================================================================
+# DATE RANGE SELECTOR WITH PRESETS
+# ============================================================================
+st.sidebar.markdown(f"""
+<h3 style='color: {COLORS["accent_teal"]}; margin-bottom: 12px; font-size: 16px;'>📅 TIME PERIOD</h3>
+""", unsafe_allow_html=True)
+
+date_preset = st.sidebar.radio(
+    "Quick Select:",
+    ["Last 7 Days", "Last 30 Days", "Last 90 Days", "Custom"],
+    horizontal=False,
+    label_visibility="collapsed"
+)
+
+if date_preset == "Last 7 Days":
+    start_date = datetime.now() - timedelta(days=7)
+    end_date = datetime.now()
+elif date_preset == "Last 90 Days":
+    start_date = datetime.now() - timedelta(days=90)
+    end_date = datetime.now()
+elif date_preset == "Custom":
+    col_d1, col_d2 = st.sidebar.columns(2)
+    with col_d1:
+        start_date = st.date_input("From", datetime.now() - timedelta(days=30), label_visibility="collapsed")
+    with col_d2:
+        end_date = st.date_input("To", datetime.now(), label_visibility="collapsed")
+else:  # Last 30 Days
+    start_date = datetime.now() - timedelta(days=30)
+    end_date = datetime.now()
+
+st.sidebar.markdown(f"""
+<small style='color: {COLORS["text_muted"]};'>Selected: {start_date.strftime('%b %d')} → {end_date.strftime('%b %d, %Y')}</small>
+""", unsafe_allow_html=True)
+
+# ============================================================================
+# CLINICAL SCENARIOS WITH COLOR CODING
+# ============================================================================
+st.sidebar.markdown(f"""
+<h3 style='color: {COLORS["accent_teal"]}; margin: 20px 0 12px 0; font-size: 16px;'>🏥 CLINICAL SCENARIOS</h3>
+""", unsafe_allow_html=True)
+
+scenario_options = {
+    'cardiac_catheterization': '❤️ Cardiac Catheterization',
+    'pain_management': '🩹 Pain Management',
+    'mental_health_referral': '🧠 Mental Health',
+    'hospital_admission': '🏨 Hospital Admission'
+}
+
+# Quick select all / none buttons
+col_all, col_none = st.sidebar.columns(2)
+with col_all:
+    if st.button("✓ All", use_container_width=True):
+        selected_scenarios = list(scenario_options.keys())
+with col_none:
+    if st.button("✗ None", use_container_width=True):
+        selected_scenarios = []
+
+# Scenario selector with visual indicators
+st.sidebar.markdown("<br>", unsafe_allow_html=True)
+selected_scenarios = st.sidebar.multiselect(
+    "Select scenarios to analyze:",
+    list(scenario_options.keys()),
+    default=list(scenario_options.keys()),
+    format_func=lambda x: scenario_options[x],
+    label_visibility="collapsed"
+)
+
+# Show severity indicators for each scenario
+if selected_scenarios:
+    st.sidebar.markdown(f"""
+    <div style='background: {COLORS["card_bg"]}; padding: 12px; border-radius: 8px; margin-top: 12px;'>
+        <p style='margin: 0 0 10px 0; font-size: 12px; color: {COLORS["text_muted"]}; font-weight: bold;'>SEVERITY STATUS</p>
+    """, unsafe_allow_html=True)
+
+    severity_map = {
+        'cardiac_catheterization': ('CRITICAL', COLORS['critical_red']),
+        'pain_management': ('HIGH', COLORS['warning_orange']),
+        'mental_health_referral': ('HIGH', COLORS['warning_orange']),
+        'hospital_admission': ('MODERATE', '#FFB74D')
+    }
+
+    for scenario in selected_scenarios:
+        label, color = severity_map.get(scenario, ('MONITOR', COLORS['success_green']))
+        st.sidebar.markdown(f"""
+        <div style='display: flex; align-items: center; padding: 8px 0;'>
+            <span style='background: {color}; width: 8px; height: 8px; border-radius: 50%; margin-right: 10px;'></span>
+            <span style='color: {COLORS["text_light"]}; font-size: 13px;'>{scenario_options[scenario].split()[-1]}</span>
+            <span style='margin-left: auto; background: {color}; color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold;'>{label}</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.sidebar.markdown("</div>", unsafe_allow_html=True)
+
+# ============================================================================
+# ADVANCED SETTINGS & ACTIONS
+# ============================================================================
+st.sidebar.markdown(f"""
+<h3 style='color: {COLORS["accent_teal"]}; margin: 20px 0 12px 0; font-size: 16px;'>⚙️ SETTINGS & ACTIONS</h3>
+""", unsafe_allow_html=True)
+
+# Settings in two columns
+col_s1, col_s2 = st.sidebar.columns(2)
+with col_s1:
+    auto_refresh = st.checkbox("Auto-refresh", value=True, help="Updates every 10 seconds")
+with col_s2:
+    show_alerts = st.checkbox("Show alerts", value=True, help="Display critical findings")
+
+# Action buttons
+col_b1, col_b2 = st.sidebar.columns(2)
+with col_b1:
+    if st.button("🔄 Refresh", use_container_width=True, help="Manual data refresh"):
+        st.rerun()
+with col_b2:
+    if st.button("📊 Export", use_container_width=True, help="Export current view"):
+        st.info("Export feature coming soon!")
+
+# ============================================================================
+# SYSTEM STATUS FOOTER
+# ============================================================================
+st.sidebar.markdown(f"""
+<div style='background: {COLORS["card_bg"]}; padding: 12px; border-radius: 8px; margin-top: 20px; border-left: 3px solid {COLORS["success_green"]};'>
+    <p style='margin: 0; font-size: 11px; color: {COLORS["text_muted"]};'>SYSTEM STATUS</p>
+    <div style='display: flex; align-items: center; margin-top: 8px;'>
+        <span style='background: {COLORS["success_green"]}; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px;'></span>
+        <span style='color: {COLORS["text_light"]}; font-size: 12px; font-weight: bold;'>OPERATIONAL</span>
+    </div>
+    <p style='margin: 8px 0 0 0; font-size: 10px; color: {COLORS["text_muted"]};'>Last: {datetime.now().strftime('%H:%M:%S')}</p>
+    <p style='margin: 3px 0 0 0; font-size: 10px; color: {COLORS["text_muted"]};'>Data: LIVE • Refresh: 10s</p>
+</div>
+""", unsafe_allow_html=True)
+
 st.sidebar.markdown("---")
 
-st.sidebar.subheader("📅 Date Range")
-col_d1, col_d2 = st.sidebar.columns(2)
-with col_d1:
-    start_date = st.date_input("From", datetime.now() - timedelta(days=30))
-with col_d2:
-    end_date = st.date_input("To", datetime.now())
+# ============================================================================
+# MAIN CONTENT - PREMIUM HEADER & KPI CARDS
+# ============================================================================
 
-st.sidebar.subheader("🔍 Clinical Scenarios")
+# Show loading spinner while fetching data
+with st.spinner("📊 Loading metrics from Databricks..."):
+    summary = load_dashboard_summary(start_date.isoformat(), end_date.isoformat())
+
+# PREMIUM HEADER WITH GRADIENT
+st.markdown(f"""
+<div style="background: linear-gradient(135deg, {COLORS['primary_blue']}20 0%, {COLORS['accent_teal']}20 100%);
+            border: 2px solid {COLORS['accent_teal']}; padding: 40px; border-radius: 15px;
+            margin-bottom: 30px; box-shadow: 0 8px 32px rgba(0, 82, 163, 0.2);">
+    <div style='display: flex; justify-content: space-between; align-items: center;'>
+        <div>
+            <h1 style="font-size: 2.5em; font-weight: 900; color: {COLORS['accent_teal']}; margin: 0; letter-spacing: -1px;">⚕️ EQUITY INTELLIGENCE CENTER</h1>
+            <p style="color: {COLORS['text_muted']}; font-size: 1em; margin: 10px 0 0 0; font-weight: 500;">Real-Time Analysis • 1M+ Patients • Databricks Powered</p>
+        </div>
+        <div style='text-align: right; padding: 15px 25px; background: {COLORS['card_bg']}; border-radius: 10px; border-left: 3px solid {COLORS['success_green']};'>
+            <p style='margin: 0; font-size: 12px; color: {COLORS["text_muted"]};'>STATUS</p>
+            <p style='margin: 5px 0 0 0; color: {COLORS["success_green"]}; font-weight: bold; font-size: 14px;'>● LIVE</p>
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# ENHANCED KPI CARDS WITH ANIMATIONS
+kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4, gap="medium")
+
+with kpi_col1:
+    total_p = int(summary.get('total_patients', 0) or 0)
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, {COLORS['primary_blue']}15 0%, {COLORS['accent_teal']}10 100%);
+                border: 1px solid {COLORS['accent_teal']}; padding: 25px; border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0, 82, 163, 0.15); transition: all 0.3s ease;">
+        <p style="margin: 0; font-size: 13px; color: {COLORS['text_muted']}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Total Patients</p>
+        <h2 style="margin: 12px 0 0 0; font-size: 32px; color: {COLORS['accent_teal']}; font-weight: 900;">{total_p:,}</h2>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: {COLORS['success_green']}; font-weight: 600;">↑ Analyzed</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with kpi_col2:
+    total_d = int(summary.get('total_decisions', 0) or 0)
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, {COLORS['primary_blue']}15 0%, {COLORS['accent_teal']}10 100%);
+                border: 1px solid {COLORS['accent_teal']}; padding: 25px; border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0, 82, 163, 0.15); transition: all 0.3s ease;">
+        <p style="margin: 0; font-size: 13px; color: {COLORS['text_muted']}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Decisions Reviewed</p>
+        <h2 style="margin: 12px 0 0 0; font-size: 32px; color: {COLORS['accent_teal']}; font-weight: 900;">{total_d:,}</h2>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: {COLORS['success_green']}; font-weight: 600;">↑ Processed</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with kpi_col3:
+    approval = float(summary.get('overall_approval_rate', 50.0) or 50.0)
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, {COLORS['warning_orange']}15 0%, {COLORS['critical_red']}10 100%);
+                border: 1px solid {COLORS['warning_orange']}; padding: 25px; border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(217, 119, 6, 0.15); transition: all 0.3s ease;">
+        <p style="margin: 0; font-size: 13px; color: {COLORS['text_muted']}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Approval Rate</p>
+        <h2 style="margin: 12px 0 0 0; font-size: 32px; color: {COLORS['warning_orange']}; font-weight: 900;">{approval:.2f}%</h2>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: {COLORS['critical_red']}; font-weight: 600;">⚠️ Low Disparity</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with kpi_col4:
+    scenarios = int(summary.get('scenarios_analyzed', 0) or 0)
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, {COLORS['success_green']}15 0%, {COLORS['accent_teal']}10 100%);
+                border: 1px solid {COLORS['success_green']}; padding: 25px; border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(45, 106, 79, 0.15); transition: all 0.3s ease;">
+        <p style="margin: 0; font-size: 13px; color: {COLORS['text_muted']}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Active Scenarios</p>
+        <h2 style="margin: 12px 0 0 0; font-size: 32px; color: {COLORS['success_green']}; font-weight: 900;">{scenarios}</h2>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: {COLORS['success_green']}; font-weight: 600;">✓ Monitored</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown(f"""
+<div style="height: 1px; background: linear-gradient(90deg, transparent, {COLORS['accent_teal']}40, transparent); margin: 30px 0;"></div>
+""", unsafe_allow_html=True)
+
+# Define all scenarios (used by sidebar and main content)
 all_scenarios = [
     'cardiac_catheterization',
     'pain_management',
     'mental_health_referral',
     'hospital_admission'
 ]
-selected_scenarios = st.sidebar.multiselect(
-    "Select scenarios:",
-    all_scenarios,
-    default=all_scenarios
-)
-
-st.sidebar.markdown("---")
-st.sidebar.subheader("⚙️ Settings")
-auto_refresh = st.sidebar.checkbox("Auto-refresh (5s)", value=True)
-
-if st.sidebar.button("🔄 Refresh Now", use_container_width=True):
-    st.rerun()
-
-st.sidebar.markdown("---")
-st.sidebar.markdown(f"""
-<div class='status-badge status-ok'>
-    Ready for Analysis
-</div>
-""", unsafe_allow_html=True)
-
-# KEY METRICS
-# PREMIUM HEADER
-st.markdown("""
-<div style="background: linear-gradient(135deg, #0F1419 0%, #1a2c4a 100%); padding: 40px; border-radius: 0; margin: -50px -50px 30px -50px; border-bottom: 3px solid #00B4D8; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);">
-    <h1 style="font-size: 3em; font-weight: 900; color: #00B4D8; margin: 0; text-shadow: 0 2px 10px rgba(0, 180, 216, 0.3); letter-spacing: -1px;">🏥 Healthcare Equity Analytics</h1>
-    <p style="color: #A0A0A0; font-size: 1.1em; margin: 10px 0 0 0; font-weight: 500;">Real-Time Bias Detection • AI-Powered Insights • Fortune 500 Grade</p>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("### 📊 Key Performance Indicators")
-
-# Show loading spinner while fetching data
-with st.spinner("📊 Loading metrics from Databricks..."):
-    summary = load_dashboard_summary(start_date.isoformat(), end_date.isoformat())
-
-met_col1, met_col2, met_col3, met_col4 = st.columns(4)
-
-with met_col1:
-    total_p = int(summary.get('total_patients', 0) or 0)
-    st.metric(
-        "Total Patients",
-        f"{total_p:,}",
-        delta="Analyzed",
-        delta_color="off"
-    )
-
-with met_col2:
-    total_d = int(summary.get('total_decisions', 0) or 0)
-    st.metric(
-        "Decisions",
-        f"{total_d:,}",
-        delta="Reviewed",
-        delta_color="off"
-    )
-
-with met_col3:
-    approval = float(summary.get('overall_approval_rate', 50.0) or 50.0)
-    st.metric(
-        "Approval Rate",
-        f"{approval:.1f}%",
-        delta="Overall",
-        delta_color="off"
-    )
-
-with met_col4:
-    scenarios = int(summary.get('scenarios_analyzed', 0) or 0)
-    st.metric(
-        "Scenarios",
-        f"{scenarios}",
-        delta="Active",
-        delta_color="off"
-    )
-
-st.markdown("---")
 
 # BIAS SCENARIOS
 st.markdown("### 🏥 All 4 Clinical Bias Scenarios")

@@ -18,16 +18,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 env_path = os.path.join(Path(__file__).parent.parent, '.env.databricks')
 load_dotenv(env_path)
 
-st.set_page_config(page_title="Bias Detection", layout="wide")
+st.set_page_config(
+    page_title="Bias Detection | Healthcare Equity Analytics",
+    page_icon="🔍",
+    layout="wide"
+)
 
-# AUTO-REFRESH every 10 seconds for FRESH data
-import time
-if "bias_last_refresh" not in st.session_state:
-    st.session_state.bias_last_refresh = time.time()
-current_time = time.time()
-if current_time - st.session_state.bias_last_refresh > 10:
-    st.session_state.bias_last_refresh = current_time
-    st.rerun()
+# NOTE: Auto-refresh removed for latency optimization
+# Users can manually refresh with button instead
 
 # HEALTHCARE COLOR SCHEME
 COLORS = {
@@ -36,25 +34,108 @@ COLORS = {
     'success_green': '#2D6A4F',
     'warning_orange': '#D97706',
     'critical_red': '#DC2626',
+    'dark_bg': '#0B1929',
+    'card_bg': '#112240',
+    'text_light': '#E8E8E8',
+    'text_muted': '#A8B5C1'
 }
 
-# HEALTHCARE-OPTIMIZED STYLING
+# HEALTHCARE-OPTIMIZED STYLING - MATCHES MAIN DASHBOARD
 st.markdown(f"""
 <style>
-    h1 {{
-        color: {COLORS['accent_teal']} !important;
-        font-weight: 900;
-        border-bottom: 3px solid {COLORS['accent_teal']};
-        padding-bottom: 15px;
+    * {{
+        margin: 0;
+        padding: 0;
     }}
+
+    body, html {{
+        background: linear-gradient(135deg, #0B1929 0%, #1a2332 100%) !important;
+        color: #E8E8E8 !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }}
+
+    [data-testid="stAppViewContainer"] {{
+        background: linear-gradient(135deg, #0B1929 0%, #1a2332 100%) !important;
+    }}
+
+    [data-testid="stMain"] {{
+        background: linear-gradient(135deg, #0B1929 0%, #1a2332 100%) !important;
+    }}
+
+    h1, h2, h3 {{
+        color: {COLORS['accent_teal']} !important;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }}
+
     h2 {{
         color: {COLORS['primary_blue']} !important;
-        font-weight: 800;
+    }}
+
+    h1 {{
+        border-bottom: 3px solid {COLORS['accent_teal']};
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }}
+
+    [data-testid="metric-container"] {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']}25 0%, {COLORS['accent_teal']}15 100%) !important;
+        border-left: 5px solid {COLORS['primary_blue']};
+        border-radius: 12px;
+        padding: 20px !important;
+        box-shadow: 0 8px 24px rgba(0, 102, 204, 0.15) !important;
+    }}
+
+    [data-testid="stTable"] {{
+        background-color: #112240 !important;
+    }}
+
+    table {{
+        background-color: #112240 !important;
+        color: #E8E8E8 !important;
+    }}
+
+    thead {{
+        background-color: {COLORS['primary_blue']}30 !important;
+    }}
+
+    tbody tr {{
+        background-color: #112240 !important;
+    }}
+
+    tbody tr:hover {{
+        background-color: {COLORS['primary_blue']}20 !important;
+    }}
+
+    button {{
+        background: linear-gradient(135deg, {COLORS['primary_blue']} 0%, {COLORS['accent_teal']} 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }}
+
+    button:hover {{
+        transform: translateY(-2px) !important;
+    }}
+
+    .stAlert {{
+        background-color: #112240 !important;
+        color: #E8E8E8 !important;
+        border-color: {COLORS['accent_teal']}40 !important;
     }}
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🔍 Clinical Bias Detection Analysis")
+st.markdown(f"""
+<div style='background: linear-gradient(135deg, {COLORS["critical_red"]}15 0%, {COLORS["warning_orange"]}15 100%);
+            border: 2px solid {COLORS["critical_red"]}; padding: 30px; border-radius: 15px; margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(220, 38, 38, 0.2);'>
+    <h1 style='color: {COLORS["critical_red"]}; margin: 0 0 10px 0; font-size: 2.2em; border: none;'>🔍 BIAS DETECTION ANALYSIS</h1>
+    <p style='color: {COLORS["text_muted"]}; margin: 0; font-size: 1em;'>Deep-Dive Disparity Detection • Statistical Rigor • Clinical Insights</p>
+</div>
+""", unsafe_allow_html=True)
 
 # PERFORMANCE: Cache database connections across page navigations
 @st.cache_resource
@@ -62,8 +143,8 @@ def get_databricks_connection():
     from databricks_client import get_databricks_connection as get_client
     return get_client()
 
-# FRESH DATA: Cache for only 5 seconds - get latest results
-@st.cache_data(ttl=5)
+# OPTIMIZED: Cache for 60 seconds to reduce database hits and improve latency
+@st.cache_data(ttl=60)
 def fetch_bias_data(scenario, demographic):
     """Fetch bias metrics from database (cached for performance)."""
     try:
@@ -73,25 +154,27 @@ def fetch_bias_data(scenario, demographic):
         if demographic == "race":
             query = f"""
             SELECT
-                scenario_type,
-                race as demographic,
-                ROUND(100.0 * SUM(CASE WHEN decision_flag = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) as approval_rate,
+                d.scenario_type,
+                p.race as demographic,
+                ROUND(100.0 * SUM(CASE WHEN d.decision_flag = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) as approval_rate,
                 COUNT(*) as total_decisions
-            FROM healthcare_equity_silver.decisions_processed
-            WHERE scenario_type = '{scenario}'
-            GROUP BY scenario_type, race
+            FROM healthcare_equity_silver.decisions_processed d
+            JOIN healthcare_equity_silver.patients_processed p ON d.patient_id = p.patient_id
+            WHERE d.scenario_type = '{scenario}'
+            GROUP BY d.scenario_type, p.race
             ORDER BY approval_rate DESC
             """
         else:
             query = f"""
             SELECT
-                scenario_type,
-                gender as demographic,
-                ROUND(100.0 * SUM(CASE WHEN decision_flag = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) as approval_rate,
+                d.scenario_type,
+                p.gender as demographic,
+                ROUND(100.0 * SUM(CASE WHEN d.decision_flag = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) as approval_rate,
                 COUNT(*) as total_decisions
-            FROM healthcare_equity_silver.decisions_processed
-            WHERE scenario_type = '{scenario}'
-            GROUP BY scenario_type, gender
+            FROM healthcare_equity_silver.decisions_processed d
+            JOIN healthcare_equity_silver.patients_processed p ON d.patient_id = p.patient_id
+            WHERE d.scenario_type = '{scenario}'
+            GROUP BY d.scenario_type, p.gender
             ORDER BY approval_rate DESC
             """
 
@@ -155,13 +238,14 @@ with st.spinner("⏳ Loading bias analysis data..."):
         df_results = pd.DataFrame()
 
 if not df_results.empty and len(df_results) > 0:
+    # Ensure numeric types FIRST
+    df_results['approval_rate'] = pd.to_numeric(df_results['approval_rate'], errors='coerce')
+    df_results['total_decisions'] = pd.to_numeric(df_results['total_decisions'], errors='coerce')
+
     # Filter by sample size
     df_results = df_results[df_results['total_decisions'] >= min_sample]
 
     if not df_results.empty:
-        # Ensure numeric types
-        df_results['approval_rate'] = pd.to_numeric(df_results['approval_rate'], errors='coerce')
-        df_results['total_decisions'] = pd.to_numeric(df_results['total_decisions'], errors='coerce')
 
         # Calculate DIR from filtered data
         approval_rates = df_results['approval_rate'].values
