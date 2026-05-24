@@ -108,6 +108,8 @@ def fetch_bias_data(scenario, demographic):
 # FILTERS
 # ============================================================================
 
+st.markdown("**👇 Adjust filters below to explore bias in different scenarios:**")
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -125,7 +127,7 @@ with col2:
 col3, col4 = st.columns(2)
 
 with col3:
-    min_sample = st.number_input("Min Sample Size", value=100, min_value=10, max_value=5000, step=50)
+    min_sample = st.number_input("Min Sample Size", value=30, min_value=5, max_value=5000, step=10, help="Lower this to see data. Start with 10-30 for exploration.")
 
 with col4:
     st.markdown("**Settings**")
@@ -287,8 +289,17 @@ if df_results is not None and len(df_results) > 0:
     }), use_container_width=True, hide_index=True)
 
 else:
-    st.warning(f"⚠️ No data found for {scenario_display} with minimum sample size of {min_sample}")
-    st.info("Try reducing the Min Sample Size filter or selecting a different scenario")
+    st.error(f"❌ No data found for {scenario_display} with minimum sample size of {min_sample}")
+    st.warning("⚠️ **Quick Fix:**")
+    st.markdown("""
+    **Recommended actions (try in order):**
+    1. **Lower the "Min Sample Size"** to 10-30 (currently set to {})
+    2. **Select a different scenario** (try Cardiac Catheterization)
+    3. **Change demographic dimension** (try Race if using Gender)
+    4. Click **"Refresh Data"** button to reload from database
+
+    *If still no data: Your database might not have records loaded yet. Run `python quickstart.py` to generate sample data.*
+    """.format(min_sample))
 
 st.divider()
 
