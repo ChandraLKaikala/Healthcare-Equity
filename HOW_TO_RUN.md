@@ -1,12 +1,18 @@
 ﻿# How to Run
 
-## One-Line Start Command
+## ⚡ Quick Start (One Command)
 
+**Bash / Terminal:**
 ```bash
 streamlit run dashboard/app.py
 ```
 
-Then open your browser to **`http://localhost:8501`**
+**PowerShell:**
+```powershell
+streamlit run dashboard/app.py
+```
+
+Then open: **`http://localhost:8501`**
 
 ---
 
