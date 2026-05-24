@@ -26,8 +26,8 @@ class ClaudeHealthcareClient:
             raise ValueError("ANTHROPIC_API_KEY environment variable not set")
 
         self.client = anthropic.Anthropic(api_key=api_key)
-        self.model = config.get("anthropic", {}).get("models", {}).get("bias_analysis", "claude-sonnet-4-6")
-        self.max_tokens = config.get("anthropic", {}).get("max_tokens", 4096)
+        self.model = "claude-haiku-4-5-20251001"  # Use Haiku for cost efficiency
+        self.max_tokens = 2000  # Haiku optimized token limit
         self.system_prompt = self._build_system_prompt()
 
         logger.info(f"Initialized Claude client with model: {self.model}")
@@ -125,8 +125,8 @@ Provide:
         metrics_text = self._format_metrics(metrics)
 
         response = self.client.messages.create(
-            model="claude-haiku-4-5",  # Use cheaper model for structured reports
-            max_tokens=2000,
+            model=self.model,  # Use Haiku for all operations
+            max_tokens=self.max_tokens,
             system=[{
                 "type": "text",
                 "text": self.system_prompt,

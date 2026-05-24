@@ -1,7 +1,7 @@
 """
 Page 6: AI-Powered Summary Generator
 
-Premium Fortune 10 Design - Streaming Claude API responses for instant feedback.
+Streaming Claude API responses for instant feedback and analysis.
 """
 import streamlit as st
 import pandas as pd
@@ -309,7 +309,7 @@ Be specific, clinical, and actionable for C-suite leadership."""
                 full_response = ""
 
                 with client.messages.stream(
-                    model="claude-opus-4-7",
+                    model="claude-haiku-4-5-20251001",
                     max_tokens=1000,
                     messages=[{"role": "user", "content": prompt}]
                 ) as stream:
@@ -402,7 +402,7 @@ Be specific and actionable."""
                 full_response = ""
 
                 with client.messages.stream(
-                    model="claude-opus-4-7",
+                    model="claude-haiku-4-5-20251001",
                     max_tokens=1200,
                     messages=[{"role": "user", "content": prompt}]
                 ) as stream:
